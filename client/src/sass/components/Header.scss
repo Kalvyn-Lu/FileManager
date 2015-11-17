@@ -1,0 +1,32 @@
+/*****************
+
+Header 
+
+*****************/
+	.sh-header {
+		box-shadow: 0px 5px 5px #ccc;
+		z-index: 1;
+
+		@include flex(none);
+
+		.sh-sign-out {
+			top: 5px;
+			position: relative;
+		}
+	}
+
+	.sh-header-title {
+		font-size: 20px;
+		text-transform: uppercase;
+		font-family: sans-serif;
+		padding: 10px;
+		display: inline-block;
+	}
+
+
+/*****************
+
+Sign out
+
+*****************/
+

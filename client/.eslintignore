@@ -1,0 +1,4 @@
+dist/
+vendor/
+webpack.config.js
+karma.conf.js

@@ -1,0 +1,39 @@
+{
+  "name": "fast-bible-client",
+  "version": "0.1.0",
+  "description": "The client-side portion of the fast bible app.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lologarithm/fastbible.git"
+  },
+  "scripts": {
+    "build": "webpack --colors --progress -d",
+    "watch:prod": "webpack --colors --watch -d --define process.env.NODE_ENV=\"'production'\"",
+    "dist": "webpack --colors -p --define process.env.NODE_ENV=\"'production'\"; git log --pretty=format:'%h' -n 1 > dist/version.txt",
+    "watch": "webpack --colors --progress --watch -d",
+    "dev": "webpack-dev-server --colors --progress --watch -d --port 7070"
+  },
+  "dependencies": {
+    "URIjs": "1.14.2",
+    "assets-webpack-plugin": "^2.2.0",
+    "babel-core": "^5.8.20",
+    "babel-loader": "^5.3.2",
+    "classnames": "^1.2.0",
+    "css-loader": "0.14.5",
+    "extract-text-webpack-plugin": "0.8.2",
+    "file-loader": "0.8.4",
+    "immutable": "^3.7.1",
+    "node-notifier": "^4.2.3",
+    "react": "^0.13.3",
+    "react-bootstrap": "^0.24.2",
+    "react-router": "^0.13.3",
+    "sass-loader": "1.0.2",
+    "superagent": "^1.2.0",
+    "tiny-uuid": "^1.0.0",
+    "webpack": "1.10.1"
+  },
+  "jshintConfig": {
+    "esnext": true
+  }
+}

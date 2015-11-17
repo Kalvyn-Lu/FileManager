@@ -1,0 +1,326 @@
+@import 'api/constants';
+@import 'api/helpers';
+
+html, body, .fb-body, .fill {
+    height: 100%;
+    width: 100%;
+}
+
+.fb-main-content {
+    @include flexbox();
+    @include flex(1 0 auto);
+}
+
+.fb-content {
+    background-color: #f9f9f9;
+    padding: 15px;
+    @include flex(1 0 auto);
+    @include flexbox();
+}
+
+.fb-auth-content {
+    @include flexbox();
+    @include flex(1 0 auto);
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.center-text {
+    @include truncate-text();
+
+    text-align: center;
+    display: block;
+    position: relative;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+.fill {
+    height: 100%;
+    width: 100%;
+}
+
+.monospace {
+    font-family: Menlo, Monaco, Consolas, "Courier New", courier, monospace;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+ul {
+    list-style: none;
+}
+
+#main {
+    margin: 0 auto;
+    float: none;
+}
+
+.firstCaps:first-letter {
+    text-transform: capitalize;
+}
+
+.underlined {
+    text-decoration: underline;
+}
+
+input {
+    padding: 5px;
+}
+
+.marginAnimate {
+    transition: margin .25s;
+}
+
+.scroll {
+    overflow: auto;
+}
+
+.widthAnimate {
+    transition: width .25s;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.ellipsis {
+    @include truncate-text();
+}
+
+.siteContent {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    background-color: #e9eaed;
+}
+
+.font-sm {
+    font-size: 10px;
+}
+
+.font-m {
+    font-size: 14px;
+}
+
+.font-l {
+    font-size: 16px;
+}
+
+.margin-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.margin-s,
+.margin-top-s {
+    margin-top: 5px;
+}
+
+.margin-s,
+.margin-bottom-s {
+    margin-bottom: 5px;
+}
+
+.margin-s,
+.margin-left-s {
+    margin-left: 5px;
+}
+
+.margin-s,
+.margin-right-s {
+    margin-right: 5px;
+}
+
+.margin-m,
+.margin-top-m {
+    margin-top: 10px;
+}
+
+.margin-m,
+.margin-bottom-m {
+    margin-bottom: 10px;
+}
+
+.margin-m,
+.margin-left-m {
+    margin-left: 10px;
+}
+
+.margin-m,
+.margin-right-m {
+    margin-right: 10px;
+}
+
+.margin-l,
+.margin-top-l {
+    margin-top: 15px;
+}
+
+.margin-l,
+.margin-bottom-l {
+    margin-bottom: 15px;
+}
+
+.margin-l,
+.margin-left-l {
+    margin-left: 15px;
+}
+
+.margin-l,
+.margin-right-l {
+    margin-right: 15px;
+}
+
+.margin-xl,
+.margin-top-xl {
+    margin-top: 20px;
+}
+
+.margin-xl,
+.margin-bottom-xl {
+    margin-bottom: 20px;
+}
+
+.margin-xl,
+.margin-left-xl {
+    margin-left: 20px;
+}
+
+.margin-xl,
+.margin-right-xl {
+    margin-right: 20px;
+}
+
+.padding-s,
+.padding-top-s {
+    padding-top: 5px;
+}
+
+.padding-s,
+.padding-bottom-s {
+    padding-bottom: 5px;
+}
+
+.padding-s,
+.padding-left-s {
+    padding-left: 5px;
+}
+
+.padding-s,
+.padding-right-s {
+    padding-right: 5px;
+}
+
+.padding-m,
+.padding-top-m {
+    padding-top: 10px;
+}
+
+.padding-m,
+.padding-bottom-m {
+    padding-bottom: 10px;
+}
+
+.padding-m,
+.padding-left-m {
+    padding-left: 10px;
+}
+
+.padding-m,
+.padding-right-m {
+    padding-right: 10px;
+}
+
+.padding-l,
+.padding-top-l {
+    padding-top: 15px;
+}
+
+.padding-l,
+.padding-bottom-l {
+    padding-bottom: 15px;
+}
+
+.padding-l,
+.padding-left-l {
+    padding-left: 15px;
+}
+
+.padding-l,
+.padding-right-l {
+    padding-right: 15px;
+}
+
+.padding-xl,
+.padding-top-xl {
+    padding-top: 20px;
+}
+
+.padding-xl,
+.padding-bottom-xl {
+    padding-bottom: 20px;
+}
+
+.padding-xl,
+.padding-left-xl {
+    padding-left: 20px;
+}
+
+.padding-xl,
+.padding-right-xl {
+    padding-right: 20px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.draggable {
+    cursor: grab;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+
+.dragging {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+}
+
+.draggable, .dragging {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.grayed {
+    color: #999;
+}
+
+.avoid-clicks {
+    pointer-events: none;
+}

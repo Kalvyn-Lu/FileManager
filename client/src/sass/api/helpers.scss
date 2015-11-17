@@ -1,0 +1,105 @@
+@mixin truncate-text($align: left) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: $align;
+    white-space: nowrap;
+}
+
+///
+/// Checks if value is a `Number` type.
+///
+@function is-number($value) {
+    @return type-of($value) == 'number';
+}
+
+///
+/// Checks if a number's unit is `px` (pixels).
+///
+@function is-pixels($value) {
+    @return unit($value) == 'px';
+}
+
+///
+/// Convert number in `px` units to `em` units.
+/// ---
+/// @requires {variable} $font-size-base
+/// ---
+/// @param {Number} $px
+/// @param {Number} $parent-font-size (14px) - `font-size` of the parent element
+/// ---
+/// @returns {Number}
+///
+@function to-em($px, $parent-font-size: 16px) {
+    @return ($px / $parent-font-size) + 0em;
+}
+
+
+// Masonry Layouts
+@mixin masonry($columns, $gutter: 15px) {
+    -moz-column-gap:   $gutter;
+    -webkit-column-gap:   $gutter;
+    column-gap:   $gutter;
+
+    -moz-column-count: $columns;
+    -webkit-column-count: $columns;
+    column-count: $columns;
+}
+
+@mixin brick() {
+    display: inline-block;
+    width: 100%;
+}
+
+/* Flexbox Stuff */
+
+@mixin flexbox() {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+@mixin inline-flexbox() {
+    display: inline-block; // fallback
+    display: -webkit-inline-flex;
+    display: inline-flex;
+}
+
+@mixin flex($values) {
+    -webkit-box-flex: $values;
+    -moz-box-flex:  $values;
+    -webkit-flex:  $values;
+    -ms-flex:  $values;
+    flex:  $values;
+}
+
+@mixin flex-direction($direction: row) {
+    -webkit-flex-direction: $direction;
+    flex-direction: $direction;
+}
+
+@mixin flex-wrap($wrap: nowrap) {
+    -webkit-flex-wrap: $wrap;
+    flex-wrap: $wrap;
+}
+
+@mixin flex-flow($wrap, $direction: row) {
+    -webkit-flex-flow: $direction $wrap;
+    flex-flow: $direction $wrap;
+}
+
+@mixin flex-order($val) {
+    -webkit-box-ordinal-group: $val;
+    -moz-box-ordinal-group: $val;
+    -ms-flex-order: $val;
+    -webkit-order: $val;
+    order: $val;
+}
+
+@mixin flex-justify-content($val) {
+    -webkit-align-items: $val;
+    align-items: $val;
+    -webkit-justify-content: $val;
+    justify-content: $val;
+}
