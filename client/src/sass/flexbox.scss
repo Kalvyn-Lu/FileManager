@@ -1,0 +1,47 @@
+@import 'api/helpers';
+
+.flex1 {
+    @include flex(1 0 auto);
+}
+
+.flex1-1 {
+    @include flex(1 1 auto);
+}
+
+.flex0 {
+    @include flex(0 1 auto);
+}
+
+.flex0-0 {
+    @include flex(0 0 auto);
+}
+
+.flexContainer {
+    @include flexbox();
+}
+
+.flexContainerInline {
+    @include inline-flexbox();
+}
+
+.flexNone {
+    @include flex(none);
+}
+
+.flexInitial {
+    @include flex(initial)
+}
+
+.flexColumn {
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.flexContainer > .right {
+    margin-left: auto;
+}
+
+.flexContainer > .left {
+    margin-right: auto;
+}
