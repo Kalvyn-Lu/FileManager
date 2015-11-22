@@ -6,10 +6,7 @@ import bodyParser from 'body-parser';
 import _ from './db/init'; //eslint-disable-line no-unused-vars
 import polyfills from './polyfills'; //eslint-disable-line no-unused-vars
 import routes from './routes/index';
-
-import fs from 'fs';
 import http from 'http';
-import https from 'https';
 
 let app = express();
 let server = http.createServer(app);
