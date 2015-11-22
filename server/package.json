@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec ./node_modules/.bin/babel-node --stage 0 -- ./app.js"
+    "start": "nodemon --exec babel-node --stage 0 -- app.js"
   },
   "dependencies": {
     "babel": "^5.5.8",
