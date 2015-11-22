@@ -15,6 +15,7 @@ require('../sass/styles.scss');
 require('file?name=index.html!../index.html');
 
 function render(handler, state) {
+	console.log('mounting');
     React.render(React.createElement(handler), document.getElementById('fm-body'));
 }
 

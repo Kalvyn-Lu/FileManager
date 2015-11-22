@@ -10,7 +10,7 @@ NotifyPlugin.prototype.apply = function(compiler) {
         var errorCount = jsonStats.errors.length;
 
         notifier.notify({
-            title: 'Stream Hub - Watch',
+            title: 'File Manager - Watch',
             message: stats.hasErrors() ? errorCount + ' Build Error(s)' : 'Build Complete',
             sound: stats.hasErrors() ? 'Funk' : false
         });
