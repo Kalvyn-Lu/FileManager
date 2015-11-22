@@ -8,8 +8,8 @@ import fsView from './component/fsView';
 // react-router expects JSX-compatible elements for its handlers
 const routes =
     Route({handler: Shell.jsx},
-      IndexRoute({handler:fsView.jsx}),
-      Route({name: routeNames.fs, handler: fsView.jsx})
+        Redirect({from: '/', to: routeNames.fs}),
+        Route({name: routeNames.fs, handler: fsView.jsx})
     );
 
 export function runRouter(callback) {
