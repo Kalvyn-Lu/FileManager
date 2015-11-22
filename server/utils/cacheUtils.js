@@ -6,7 +6,7 @@ export function addToCache(cache, key) {
             });
         } else {
 
-            cache.set(x[key], x);    
+            cache.set(x[key], x);
         }
 
         return x;
@@ -25,6 +25,6 @@ export function removeFromCache(cache, key) {
 export default (cache, key) => {
     return {
         addToCache: addToCache(cache, key),
-        removeFromCache: removeFromCache(cache, key)    
+        removeFromCache: removeFromCache(cache, key)
     };
 };

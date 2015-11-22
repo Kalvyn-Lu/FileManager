@@ -32,10 +32,7 @@ async function defaultParameters(req, listParam = [], valueParam = []) {
 }
 
 function parseMultipart(req) {
-    let count = 0;
     let form = new multiparty.Form({uploadDir: 'tmp/images'});
-    let obj = {};
-     
     let promise = new Promise((resolve, reject) => {
         form.parse(req, function(err, fields, files) {
             if (err) {
@@ -43,7 +40,7 @@ function parseMultipart(req) {
             }
 
             resolve({fields, files: files.fileToUpload});
-        });  
+        });
     });
 
     return promise;
