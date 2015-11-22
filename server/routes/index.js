@@ -3,10 +3,8 @@ import info from './infos';
 let router = express.Router();
 
 export default (app) => {
-    router.get('/', function(req, res) {
-        res.send(JSON.stringify({status: 'success', contents: 'index'}));
-    });
-    app.use('/', router);
+    app.use('/', express.static('../client/dist'));
+    app.use('/api', router);
 
     info(app);
 };

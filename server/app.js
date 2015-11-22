@@ -3,7 +3,6 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
-import _ from './db/init'; //eslint-disable-line no-unused-vars
 import polyfills from './polyfills'; //eslint-disable-line no-unused-vars
 import routes from './routes/index';
 import http from 'http';
