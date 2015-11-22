@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import ejs from 'ejs';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
@@ -10,10 +11,11 @@ import http from 'http';
 let app = express();
 let server = http.createServer(app);
 
+// app.engine('html', ejs.renderFile);
+// app.set('view engine', 'html');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public'))); //eslint-disable-line no-undef
 
 server.listen(12000);
 

@@ -9,7 +9,7 @@ export default component({
 
     render() {
         return div({className: 'fm-header'},
-            span({className: 'fm-header-title'}, 'Fast Bible'),
+            span({className: 'fm-header-title'}, 'File Manager'),
             HeaderLogin({className: 'right'})
         );
     }
