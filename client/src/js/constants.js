@@ -7,6 +7,7 @@ export default {
     emptySet: immutable.Set(),
 
     routeNames: {
+      fs :'/fs'
     },
 
     urls: {
