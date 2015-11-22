@@ -7,9 +7,6 @@ export default {
     emptySet: immutable.Set(),
 
     routeNames: {
-        login: 'login',
-        signup: 'register',
-        TOS: 'termsOfService'
     },
 
     urls: {
