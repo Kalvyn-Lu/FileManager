@@ -44,8 +44,8 @@ export default component({
             };
         }
 
-        return div({className: 'sh-login-page margin-top-xl'},
-            div({className: 'sh-login-input-container'},
+        return div({className: 'fm-login-page margin-top-xl'},
+            div({className: 'fm-login-input-container'},
                 Input({type:'email',
                     placeholder: 'Email',
                     onChange: this.bindToState('email'),

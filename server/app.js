@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
@@ -8,29 +7,19 @@ import _ from './db/init'; //eslint-disable-line no-unused-vars
 import polyfills from './polyfills'; //eslint-disable-line no-unused-vars
 import routes from './routes/index';
 
-import forceSSL from 'express-force-ssl';
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
 
-let sslOptions = {
-    key: fs.readFileSync('./credentials/site.key'),
-    cert: fs.readFileSync('./credentials/site.cert')
-};
-
 let app = express();
 let server = http.createServer(app);
-let secureServer = https.createServer(sslOptions, app);
 
-app.use(forceSSL);
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //eslint-disable-line no-undef
 
-secureServer.listen(443);
-server.listen(80);
+server.listen(12000);
 
 routes(app);
 

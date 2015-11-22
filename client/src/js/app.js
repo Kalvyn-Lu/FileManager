@@ -15,7 +15,7 @@ require('../sass/styles.scss');
 require('file?name=index.html!../index.html');
 
 function render(handler, state) {
-    React.render(React.createElement(handler), document.getElementById('sh-body'));
+    React.render(React.createElement(handler), document.getElementById('fm-body'));
 }
 
 runRouter(render);

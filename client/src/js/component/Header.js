@@ -8,8 +8,8 @@ export default component({
     displayName: 'Header',
 
     render() {
-        return div({className: 'sh-header'},
-            span({className: 'sh-header-title'}, 'Fast Bible'),
+        return div({className: 'fm-header'},
+            span({className: 'fm-header-title'}, 'Fast Bible'),
             HeaderLogin({className: 'right'})
         );
     }

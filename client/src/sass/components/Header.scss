@@ -3,19 +3,19 @@
 Header 
 
 *****************/
-	.sh-header {
+	.fm-header {
 		box-shadow: 0px 5px 5px #ccc;
 		z-index: 1;
 
 		@include flex(none);
 
-		.sh-sign-out {
+		.fm-sign-out {
 			top: 5px;
 			position: relative;
 		}
 	}
 
-	.sh-header-title {
+	.fm-header-title {
 		font-size: 20px;
 		text-transform: uppercase;
 		font-family: sans-serif;

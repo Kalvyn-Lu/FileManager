@@ -6,8 +6,14 @@
 \#*
 .\#*
 
-npm-debug.log
-
 .DS_STORE
+build/
+dist/
 node_modules/
-credentials/
+
+_*.runner.html
+npm_debug.log
+npm-debug.log
+*.orig
+report.xml
+result.xml

@@ -7,8 +7,8 @@ export default component({
     displayName: 'LoginView',
 
     render() {
-        return div({className: 'sh-tos-page'},
-            h1({className: 'sh-tos-header'}, 'Terms of Service'),
+        return div({className: 'fm-tos-page'},
+            h1({className: 'fm-tos-header'}, 'Terms of Service'),
             div({}, 'insert TOS here')
         );
     }

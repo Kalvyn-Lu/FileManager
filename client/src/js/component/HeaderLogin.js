@@ -19,7 +19,7 @@ export default component({
 
         let className = classnames(
             this.props.className,
-            'btn btn-link sh-sign-out'
+            'btn btn-link fm-sign-out'
         );
         
         return button({className, onClick: this.onSignOut}, 'Sign Out');

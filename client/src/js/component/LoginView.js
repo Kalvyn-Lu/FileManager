@@ -18,8 +18,8 @@ let EmailConnect = component({
         let lockGlyph = Glyph({glyph: 'lock'});
         let emailGlyph = Glyph({glyph: 'envelope'});
 
-        return div({className: 'sh-login-page margin-top-xl'},
-            div({className: 'sh-login-input-container'},
+        return div({className: 'fm-login-page margin-top-xl'},
+            div({className: 'fm-login-input-container'},
                 Input({type:'email',
                     placeholder: 'Email',
                     onChange: this.bindToState('email'),
@@ -67,7 +67,7 @@ let EmailConnect = component({
     },
 
     renderErrorMessage() {
-        return div({className: 'sh-login-page-error'}, this.getViewState('error'));
+        return div({className: 'fm-login-page-error'}, this.getViewState('error'));
     },
 
     bindToState(keyPath) {
@@ -113,10 +113,10 @@ export default component({
             return EmailConnect();
         }
 
-        return div({className: 'sh-login-page'},
-            div({className: 'sh-login-greeting'}, 'Welcome'),
-            div({className: 'sh-login-connect'}, 'Connect with ...'),
-            div({className: 'sh-login-icon-container'},
+        return div({className: 'fm-login-page'},
+            div({className: 'fm-login-greeting'}, 'Welcome'),
+            div({className: 'fm-login-connect'}, 'Connect with ...'),
+            div({className: 'fm-login-icon-container'},
                 ul({className: 'soc'},
                     li({}, a({className: 'soc-email1', onClick: this.showEmailLogin})),
                     li({}, a({className: 'soc-facebook'})),

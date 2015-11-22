@@ -27,9 +27,9 @@ export default component({
     },
 
     render() {
-        return div({className: 'sh-auth-content'},
+        return div({className: 'fm-auth-content'},
             LeftNav(),
-            div({className: 'sh-content'},
+            div({className: 'fm-content'},
                 RouteHandler()
             )
         );
