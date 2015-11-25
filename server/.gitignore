@@ -17,3 +17,5 @@ npm-debug.log
 *.orig
 report.xml
 result.xml
+
+tmp
