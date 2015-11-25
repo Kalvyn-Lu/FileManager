@@ -24,6 +24,9 @@ async function test() {
     console.log('adjusting record 3');
     await writeRecord({id: 3, data: 'qweradsf'});
 
+    console.log('writing record that should fill id 1');
+    await writeRecord({data: 'rec 1'});
+
     let abbvRecord = await getRecords();
     let fullRecord = await getRecord({id: 3});
 
