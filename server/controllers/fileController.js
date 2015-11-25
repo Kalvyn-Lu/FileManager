@@ -22,7 +22,7 @@ function getFiles() {
 }
 
 function getFile({id}) {
-	
+
 	return Promise.resolve({msg: `we got a file! ${id}`});
 }
 
@@ -44,12 +44,12 @@ function writeFile({id, data}) {
 }
 
 function deleteFile({id}) {
-	return Promise.resolve({msg: `we are deleting a file! ${id}`});
+    return Promise.resolve({msg: `we are deleting a file! ${id}`});
 }
-
+ 
 export default {
-	getFiles,
-	getFile,
-	writeFile,
-	deleteFile
+    getFiles,
+    getFile,
+    writeFile,
+    deleteFile
 };
