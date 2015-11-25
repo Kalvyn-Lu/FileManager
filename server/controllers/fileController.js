@@ -1,3 +1,14 @@
+import uuid from 'tiny-uuid';
+import immutable from 'immutable';
+
+let files = immutable.Map();
+class File {
+	constructor() {
+		this.name = '';
+		this.id = uuid();
+		this.records = []; // list of record ids
+	}
+}
 
 function getFiles() {
 	
