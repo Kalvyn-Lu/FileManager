@@ -1,8 +1,15 @@
 import uuid from 'tiny-uuid';
 import immutable from 'immutable';
+import promisify from 'promisify-node';
+import fs from 'fs';
 
 const recordSize = 1024;
 const cacheSize = 100;
+const dir = './tmp';
+
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+}
 
 class RecordTable {
     constructor(json) {
@@ -21,8 +28,18 @@ class RecordTable {
         return index;
     }
 
-    fillRecordBuffer(record) {
-        
+    async fillRecordBuffer(record) {
+        // if the record doesn't exist, we need to wtf out
+        if (!record || record.id === undefined) {
+            throw new Error('fillRecordBuffer: Cant fill record that is null, or has no id');
+        }
+
+        // If the record already has information in it
+        if (record.buffer) {
+            return;
+        }
+
+        record.buffer = await promisify(fs.readFile(`${dir}/${record.id}`));
     }
 }
 
