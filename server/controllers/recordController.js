@@ -1,73 +1,125 @@
 import uuid from 'tiny-uuid';
 import immutable from 'immutable';
-import promisify from 'promisify-node';
+import promisify from 'es6-promisify';
 import fs from 'fs';
+import LRUCache from '../vendor/LRUCache';
 
-const recordSize = 1024;
 const cacheSize = 100;
 const dir = './tmp';
+const ext = '.rec';
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
 
-class RecordTable {
-    constructor(json) {
-        this.nextId = 0;
-        this.records = immutable.Map();
-    }
+let records = immutable.Map();
+let cache = new LRUCache(cacheSize);
 
-    requestId() {
-        let index = this.nextId;
-
-        // Keep scrolling through the record table until we find a hole, or reach the end
-        while (this.records.get(index) !== undefined) {
-            index++;
-        }
-
-        return index;
-    }
-
-    async fillRecordBuffer(record) {
-        // if the record doesn't exist, we need to wtf out
-        if (!record || record.id === undefined) {
-            throw new Error('fillRecordBuffer: Cant fill record that is null, or has no id');
-        }
-
-        // If the record already has information in it
-        if (record.buffer) {
-            return;
-        }
-
-        record.buffer = await promisify(fs.readFile(`${dir}/${record.id}`));
+class Record {
+    constructor(id, data) {
+        this.id = id !== undefined ? id : getNextId();
+        this.size = 0;
+        this.buffer = data || null;
     }
 }
 
-class Record {
-    constructor(id) {
-        this.id = id;
-        this.buffer = null;
+// Reads data from the disc, and assigns it to the given record
+async function readFromDisc(record) {
+    // if the record doesn't exist, we need to wtf out
+    if (!record || record.id === undefined) {
+        throw new Error('readFromDisc: Cant fill record that is null, or has no id');
+    }
+
+    // If the record already has information in it
+    if (record.buffer) {
+        return record;
+    }
+
+    try {
+        record.buffer = await promisify(fs.readFile)(`${dir}/${record.id}.${ext}`);
+    } catch (e) {
+        console.log('ERROR: ', e);
+        throw new Error(`readFromDisc: Error reading from disc for record ${record.id}`);
+    }
+
+    return record;
+}
+
+// Writes data to disc, to a location dependant on the given record
+function writeToDisc(record, data) {
+    // if the record doesn't exist, we need to wtf out
+    if (!record || record.id === undefined) {
+        throw new Error('readFromDisc: Cant fill record that is null, or has no id');
+    }
+
+    try {
+        return promisify(fs.writeFile)(`${dir}/${record.id}.${ext}`, data);
+    } catch (e) {
+        console.log('ERROR: ', e);
+        throw new Error(`writeToDisc: Error writing to disc for record ${record.id}`);
+    }
+}
+
+// Clears the file specified by the given id
+function clearFile(id) {
+    if (id === undefined) {
+        throw new Error('clearFile: id not specified');
+    }
+
+    return promisify(fs.unlink)(`${dir}/${id}.${ext}`);
+}
+
+// Returns the first free id in the record table
+function getNextId() {
+    let index = 0;
+
+    // Keep scrolling through the record table until we find a hole, or reach the end
+    while (records.get(index) !== undefined) {
+        index++;
+    }
+
+    return index;
+}
+
+// Manages our cache of records, whose file buffer is loaded into memory
+function bumpCache(record) {
+    let evicted = cache.put(record.id, record);
+    if (evicted) {
+        evicted.buffer = null;
     }
 }
 
 // Returns a list of all of the record objects, without any buffer information
-function getRecords() {
-    return Promise.resolve({msg: 'we got some Records!'});
+async function getRecords() {
+    return records.map(x => ({id: x.get('id'), size: x.get('size')}));
 }
 
 // Returns a full record object
-function getRecord({id}) {
-    return Promise.resolve({msg: `we got a Record! ${id}`});
+async function getRecord({id}) {
+    let record = await readFromDisc(records.get(id));
+    bumpCache(record);
+
+    return record;
 }
 
 // Writes a record to the table, leaving 'id' null creates a new record
-function writeRecord({id, data}) {
-    return Promise.resolve({msg: `we are updating a Record! ${id}`});
+async function writeRecord({id, data}) {
+    let record = new Record(id, data);
+    writeToDisc(record, data);
+    bumpCache(record);
+
+    records = records.set(record.id, record);
+
+    return record;
 }
 
 // Deletes the specified record from the table
-function deleteRecord({id}) {
-    return Promise.resolve({msg: `we are deleting a Record! ${id}`});
+async function deleteRecord({id}) {
+    records = records.remove(id);
+    cache.remove(id);
+    clearFile(id);
+
+    return true;
 }
 
 export default {

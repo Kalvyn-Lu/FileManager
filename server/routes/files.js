@@ -28,7 +28,7 @@ async function updateFile(req, res) {
     let args = await defaultParameters(req, [], []);
 
     fileController
-        .updateFile(args)
+        .writeFile(args)
         .then(response.success(res))
         .catch(response.failure(res));
 }

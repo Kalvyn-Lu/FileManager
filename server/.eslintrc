@@ -59,7 +59,6 @@ rules:
   no-array-constructor: 2
   no-caller: 2
   no-cond-assign: [2, "except-parens"]
-  no-console: 2
   no-constant-condition: 1
   no-control-regex: 2
   no-const-assign: 2
