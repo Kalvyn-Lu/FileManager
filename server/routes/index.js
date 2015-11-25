@@ -1,6 +1,7 @@
 import express from 'express';
 import info from './infos';
 import files from './files';
+import records from './records';
 import path from 'path';
 
 export default (app) => {

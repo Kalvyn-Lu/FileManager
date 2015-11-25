@@ -4,9 +4,9 @@ import promisify from 'es6-promisify';
 import fs from 'fs';
 import LRUCache from '../vendor/LRUCache';
 
-const cacheSize = 100;
+const cacheSize = 1000;
 const dir = './tmp';
-const ext = '.rec';
+const ext = 'rec';
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -18,8 +18,12 @@ let cache = new LRUCache(cacheSize);
 class Record {
     constructor(id, data) {
         this.id = id !== undefined ? id : getNextId();
-        this.size = 0;
+        this.size = data === undefined ? 0 : data.length;
         this.buffer = data || null;
+    }
+
+    toString() {
+        return JSON.stringify(this);
     }
 }
 
@@ -83,15 +87,15 @@ function getNextId() {
 
 // Manages our cache of records, whose file buffer is loaded into memory
 function bumpCache(record) {
-    let evicted = cache.put(record.id, record);
-    if (evicted) {
+    let evicted = cache.set(record.id, record);
+    if (evicted && evicted.id !== record.id) {
         evicted.buffer = null;
     }
 }
 
 // Returns a list of all of the record objects, without any buffer information
 async function getRecords() {
-    return records.map(x => ({id: x.get('id'), size: x.get('size')}));
+    return records.map(x => ({id: x.id, size: x.size}));
 }
 
 // Returns a full record object
@@ -123,6 +127,9 @@ async function deleteRecord({id}) {
 }
 
 export default {
+    _getRecords: () => records,
+    cache,
+
     getRecords,
     getRecord,
     writeRecord,
