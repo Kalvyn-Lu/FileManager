@@ -1,5 +1,6 @@
 import uuid from 'tiny-uuid';
 import immutable from 'immutable';
+import recordController from './recordController'
 
 let files = immutable.Map();
 class File {
@@ -11,7 +12,6 @@ class File {
 }
 
 function getFiles() {
-	
 	return Promise.resolve({msg: 'we got some files!'});
 }
 
@@ -20,6 +20,10 @@ function getFile({id}) {
 }
 
 function writeFile({id, data}) {
+	File create = new File();
+	create.name = data.name;
+	create.id = id;
+	Math.floor()
 	return Promise.resolve({msg: `we are updating a file! ${id}`});
 }
 
