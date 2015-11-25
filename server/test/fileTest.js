@@ -30,6 +30,14 @@ async function test() {
     // console.log('LRU cache:', cache.toString());
     // console.log('getRecord:\n', fullRecord);
     // console.log('getRecords:\n', abbvRecord.toJS());
-    // console.log('records:\n', _getRecords().toJS());
+    // console.l`og('records:\n', _getRecords().toJS());
+
+		console.log("writetest");
+		let file = {
+			name:"John Cena",
+			content:"Joooohhhhnnn Cennaaaa"
+		};
+		await writeFile({id:1,data:file});
+		console.log("writeTest finished");
 }
 test();

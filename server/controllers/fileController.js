@@ -30,16 +30,20 @@ async function writeFile({id, data}) {
  	let create = new File(id);
 	create.name = data.name;
 	let strData = data.content;
+
 	for(let i = 0; i < strData.length; i+= recordSize){
 		let cSlice;
 		if(strData.length < (i + recordSize)){
 			cSlice = strData.slice(i,strData.length);
-		}else {
+		}else{
 			cSlice = strData.slice(i,recordSize);
 		}
 		create.records.append(recordController.writeRecord({id:null,data:cSlice}));
+		console.log(cSlice);
 	}
-	files = files.set(id,create);
+	console.log(create.name);
+	console.log(create.content);
+	files = files.set(id,create);;
 	return Promise.resolve({msg: `we are updating a file! ${id}`});
 }
 

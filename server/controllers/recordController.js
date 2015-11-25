@@ -111,9 +111,8 @@ async function writeRecord({id, data}) {
     let record = new Record(id, data);
     writeToDisc(record, data);
     bumpCache(record);
-
     records = records.set(record.id, record);
-
+    
     return record;
 }
 
