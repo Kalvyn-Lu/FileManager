@@ -38,7 +38,7 @@ async function writeFile({id, data}) {
 		}else{
 			cSlice = strData.slice(i,recordSize);
 		}
-		create.records.append(recordController.writeRecord({id:null,data:cSlice}));
+		create.records.append(recordController.writeRecord({data:cSlice}));
 		console.log(cSlice);
 	}
 	console.log(create.name);
