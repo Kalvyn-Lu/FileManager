@@ -12,7 +12,7 @@ export default component({
 
     render() {
         return div({},
-          'fsView'
+
         );
     }
 });
