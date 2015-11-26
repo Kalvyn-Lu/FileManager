@@ -51,8 +51,12 @@ async function writeFile({id, data}) {
 }
 
 async function deleteFile({id}) {
-		files = files.delete(id);
-    return Promise.resolve({msg: `we are deleting a file! ${id}`});
+	let toDel = files.get(id);
+	for(let rNum of toDel.records){
+		recordController.deleteRecord({id:rNum});
+	}
+	files = files.delete(id);
+  return Promise.resolve({msg: `we are deleting a file! ${id}`});
 }
 
 export default {
