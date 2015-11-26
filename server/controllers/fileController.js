@@ -17,8 +17,12 @@ class File {
 
 
 async function getFiles() {
-
-	return Promise.resolve({msg: 'we got some files!'});
+	let fileArr = [];
+	for (let item of files){
+		fileArr.push(item);
+	}
+	return fileArr;
+	//return Promise.resolve({msg: 'we got some files!'});
 }
 
 async function getFile({id}) {
@@ -47,6 +51,7 @@ async function writeFile({id, data}) {
 }
 
 async function deleteFile({id}) {
+	
     return Promise.resolve({msg: `we are deleting a file! ${id}`});
 }
 

@@ -41,8 +41,13 @@ async function test() {
 		console.log("writeTest finished");
 
 		console.log("getFileTest");
-		let newer = await getFile(1);
+		let newer = await getFile({id:1});
 		console.log(newer);
+		console.log("getFile test finished")
 
+		console.log ("getFiles Test");
+		let filler = await getFiles();
+		console.log(filler);
+		console.log("getFiles Test finished")
 }
 test();
