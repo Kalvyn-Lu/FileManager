@@ -49,5 +49,9 @@ async function test() {
 		let filler = await getFiles();
 		console.log(filler);
 		console.log("getFiles Test finished")
+
+		console.log("delete");
+		await deleteFile({id:1});
+		console.log(await getFiles());
 }
 test();

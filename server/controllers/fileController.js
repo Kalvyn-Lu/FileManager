@@ -51,7 +51,7 @@ async function writeFile({id, data}) {
 }
 
 async function deleteFile({id}) {
-	
+		files = files.delete(id);
     return Promise.resolve({msg: `we are deleting a file! ${id}`});
 }
 
