@@ -39,5 +39,10 @@ async function test() {
 		};
 		await writeFile({id:1,data:file});
 		console.log("writeTest finished");
+
+		console.log("getFileTest");
+		let newer = await getFile(1);
+		console.log(newer);
+
 }
 test();

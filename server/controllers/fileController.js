@@ -22,8 +22,8 @@ async function getFiles() {
 }
 
 async function getFile({id}) {
-
-	return Promise.resolve({msg: `we got a file! ${id}`});
+	return files.get(id);
+	//return Promise.resolve({msg: `we got a file! ${id}`});
 }
 
 async function writeFile({id, data}) {
@@ -38,11 +38,10 @@ async function writeFile({id, data}) {
 		}else{
 			cSlice = strData.slice(i,recordSize);
 		}
-		create.records.append(recordController.writeRecord({data:cSlice}));
-		console.log(cSlice);
+		create.records.push(recordController.writeRecord({data:cSlice}));
 	}
 	console.log(create.name);
-	console.log(create.content);
+	console.log(data.content);
 	files = files.set(id,create);;
 	return Promise.resolve({msg: `we are updating a file! ${id}`});
 }
