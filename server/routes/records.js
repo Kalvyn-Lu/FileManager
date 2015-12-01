@@ -15,7 +15,7 @@ async function getRecords(req, res) {
 router.get('/', getRecords);
 
 async function getRecord(req, res) {
-    let args = await defaultParameters(req, [], []);
+    let args = await defaultParameters(req, [], [{key: 'id', type: Number}]);
 
     recordController
         .getRecord(args)
