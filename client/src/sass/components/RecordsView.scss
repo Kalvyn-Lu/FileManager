@@ -9,11 +9,22 @@
 .fm-record-item {
 	@include flexbox();
 	margin-bottom: 5px;
+	padding: 5px 10px;
+	border: 1px solid transparent;
+
+	&:hover {
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		cursor: pointer;
+	}
 }
 
 .fm-record-item-header {
+	@include flexbox();
+	border: 1px solid transparent;
 	border-bottom: 1px solid #333;
-	padding-bottom: 5px;
+	margin-bottom: 5px;
+	padding: 5px 10px;
 }
 
 .fm-record-item-id {
