@@ -1,24 +1,25 @@
 @import 'api/constants';
 @import 'api/helpers';
 
-html, body, .fb-body, .fill {
+html, body, .fm-body, .fill {
     height: 100%;
     width: 100%;
 }
 
-.fb-main-content {
+.fm-main-content {
     @include flexbox();
     @include flex(1 0 auto);
 }
 
-.fb-content {
+.fm-content {
     background-color: #f9f9f9;
     padding: 15px;
     @include flex(1 0 auto);
     @include flexbox();
+    @include flex-direction(column);
 }
 
-.fb-auth-content {
+.fm-auth-content {
     @include flexbox();
     @include flex(1 0 auto);
 }
