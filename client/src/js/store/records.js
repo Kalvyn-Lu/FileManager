@@ -5,16 +5,15 @@ import {urls} from 'constants';
 const store = createStore();
 
 async function fetchRecords() {
-    console.log(urls);
     let records = await rest.get(urls.records);
-    store.cursor.update(_ => records);
+    store.cursor().update(_ => records);
 
     return records;
 }
 
 async function fetchRecord(id) {
     let record = await rest.get(urls.records);
-    store.cursor.set(id, record);
+    store.cursor().set(id, record);
 
     return record;
 }

@@ -1,15 +1,7 @@
 import immutable from 'immutable';
 import request from 'superagent';
-import userSession from './store/userSession';
-
-const OAUTH_TOKEN = 'Authorization';
 
 function doRequest(req, headers={}) {
-    let token = userSession.store.current.get('access_token');
-    if (token) {
-        headers[OAUTH_TOKEN] = `Bearer ${token}`;
-    }
-
     return new Promise((resolve, reject) => {
         if (headers !== undefined) {
             req = req.set(headers);
