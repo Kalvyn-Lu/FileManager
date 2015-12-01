@@ -6,7 +6,7 @@ let files = immutable.Map();
 
 const recordSize = 1024;
 
-function file(id) {
+function newFile(id) {
     return immutable.fromJS({
         name: '',
         id: id !== undefined ? id : uuid(),
@@ -24,40 +24,38 @@ async function getFile({id}) {
 }
 
 async function writeFile({id, data}) {
-    let create = files.get([id, 'id']);
-    create.name = data.name;
-    let strData = data.content;
+    let {name, content} = data;
+    let file = files.get([id, 'id'], newFile(id));
+    file = file.set('name', name);
 
     let newRecords = immutable.List();
-    let currentRecords = create.records;
-    let neededRecords = Math.floor(strData.length / recordSize);
+    let currentRecords = file.get('records');
+    let neededRecords = Math.floor(content.length / recordSize);
 
     // Create or update records based on the new content
     for (let i = 0; i < neededRecords; i++) {
         let recordId = currentRecords.get(i);
-        let slice = strData.slice(i * recordSize, (i + 1) * recordSize);
+        let slice = content.slice(i * recordSize, (i + 1) * recordSize);
 
         let createdRecord = await recordController.writeRecord({id: recordId, data: slice});
         newRecords = newRecords.concat(createdRecord.id);
     }
-    create.records = newRecords;
+    file.records = newRecords;
 
     // Deallocate unneeded records
-    currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.id}));
+    currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.get('id')}));
 
     // Assign our new/updated file to the file table
-    files = files.set(id, create);
+    files = files.set(id, file);
 
-    return Promise.resolve({msg: `we are updating a file! ${id}`});
+    return getFile({id});
 }
 
 async function deleteFile({id}) {
-    let toDel = files.get(id);
-    for(let rNum of toDel.records){
-        recordController.deleteRecord({id:rNum});
-    }
+    files.getIn([id, 'records']).forEach(x => recordController.deleteRecord({id: x.get('id')}));
     files = files.delete(id);
-  return Promise.resolve({msg: `we are deleting a file! ${id}`});
+
+    return true;
 }
 
 export default {
