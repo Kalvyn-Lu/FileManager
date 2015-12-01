@@ -7,11 +7,12 @@ export default {
     emptySet: immutable.Set(),
 
     routeNames: {
-      fs :'/fs'
+        fs: '/fs',
+        records: '/records'
     },
 
     urls: {
-        users: '/api/v1/users'
+        users: '/api/records'
     },
 
     keys: {
