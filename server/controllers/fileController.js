@@ -17,36 +17,48 @@ class File {
 
 
 async function getFiles() {
-
-	return Promise.resolve({msg: 'we got some files!'});
+	let fileArr = [];
+	for (let item of files){
+		fileArr.push(item);
+	}
+	return fileArr;
+	//return Promise.resolve({msg: 'we got some files!'});
 }
 
 async function getFile({id}) {
-
-	return Promise.resolve({msg: `we got a file! ${id}`});
+	return files.get(id);
+	//return Promise.resolve({msg: `we got a file! ${id}`});
 }
 
 async function writeFile({id, data}) {
  	let create = new File(id);
 	create.name = data.name;
 	let strData = data.content;
+
 	for(let i = 0; i < strData.length; i+= recordSize){
 		let cSlice;
 		if(strData.length < (i + recordSize)){
 			cSlice = strData.slice(i,strData.length);
-		}else {
+		}else{
 			cSlice = strData.slice(i,recordSize);
 		}
-		create.records.append(recordController.writeRecord({id:null,data:cSlice}));
+		create.records.push(recordController.writeRecord({data:cSlice}));
 	}
-	files = files.set(id,create);
+	console.log(create.name);
+	console.log(data.content);
+	files = files.set(id,create);;
 	return Promise.resolve({msg: `we are updating a file! ${id}`});
 }
 
 async function deleteFile({id}) {
-    return Promise.resolve({msg: `we are deleting a file! ${id}`});
+	let toDel = files.get(id);
+	for(let rNum of toDel.records){
+		recordController.deleteRecord({id:rNum});
+	}
+	files = files.delete(id);
+  return Promise.resolve({msg: `we are deleting a file! ${id}`});
 }
- 
+
 export default {
     getFiles,
     getFile,

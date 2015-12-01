@@ -30,6 +30,28 @@ async function test() {
     // console.log('LRU cache:', cache.toString());
     // console.log('getRecord:\n', fullRecord);
     // console.log('getRecords:\n', abbvRecord.toJS());
-    // console.log('records:\n', _getRecords().toJS());
+    // console.l`og('records:\n', _getRecords().toJS());
+
+		console.log("writetest");
+		let file = {
+			name:"John Cena",
+			content:"Joooohhhhnnn Cennaaaa"
+		};
+		await writeFile({id:1,data:file});
+		console.log("writeTest finished");
+
+		console.log("getFileTest");
+		let newer = await getFile({id:1});
+		console.log(newer);
+		console.log("getFile test finished")
+
+		console.log ("getFiles Test");
+		let filler = await getFiles();
+		console.log(filler);
+		console.log("getFiles Test finished")
+
+		console.log("delete");
+		await deleteFile({id:1});
+		console.log(await getFiles());
 }
 test();
