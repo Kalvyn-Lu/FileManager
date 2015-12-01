@@ -7,6 +7,8 @@ import path from 'path';
 export default (app) => {
     info(app);
     files(app);
+    records(app);
+    
     app.use('/js', express.static('../client/dist/js'));
     app.use('/css', express.static('../client/dist/css'));
     app.use('/', function(req, res) {

@@ -1,0 +1,21 @@
+@import '../api/helpers';
+
+.fm-record-item {
+	@include flexbox();
+}
+
+.fm-record-item-id {
+	@include flex(0 0 100px);
+}
+
+.fm-record-size {
+
+}
+
+.fm-record-size-bar {
+
+}
+
+.fm-record-size-bar-fill {
+	background-color: green;
+}

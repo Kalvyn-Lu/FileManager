@@ -1,6 +1,5 @@
 import React from 'react';
 import viewStateMixin from './viewStateMixin';
-import userSession from '../store/userSession';
 import {emptyMap, roles} from 'constants';
 
 let componentMixin = {
@@ -34,8 +33,7 @@ export default spec => {
         displayName,
         mixins: [
             viewStateMixin,
-            componentMixin,
-            userSession.store.connectTo(['stores', 'session'])
+            componentMixin
         ].concat(mixins),
 
         propTypes,
