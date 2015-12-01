@@ -12,7 +12,7 @@ async function fetchRecords() {
 }
 
 async function fetchRecord(id) {
-    let record = await rest.get(urls.records);
+    let record = await rest.get(`${urls.records}/${id}`);
     store.cursor().set(id, record);
 
     return record;
