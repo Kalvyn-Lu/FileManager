@@ -24,11 +24,21 @@ async function getRecord(req, res) {
 }
 router.get('/:id', getRecord);
 
-async function updateRecord(req, res) {
-    let args = await defaultParameters(req, [], []);
+async function createRecord(req, res) {
+    let args = await defaultParameters(req, [], [{key: 'data'}]);
 
     recordController
-        .updateRecord(args)
+        .writeRecord(args)
+        .then(response.success(res))
+        .catch(response.failure(res));
+}
+router.post('/', createRecord);
+
+async function updateRecord(req, res) {
+    let args = await defaultParameters(req, [], [{key: 'data'}]);
+
+    recordController
+        .writeRecord(args)
         .then(response.success(res))
         .catch(response.failure(res));
 }
@@ -45,5 +55,5 @@ async function deleteRecord(req, res) {
 router.delete('/:id', deleteRecord);
 
 export default (app) => {
-    app.use('/api/Records', router);
+    app.use('/api/records', router);
 };

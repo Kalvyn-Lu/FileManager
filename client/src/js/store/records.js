@@ -5,6 +5,7 @@ import {urls} from 'constants';
 const store = createStore();
 
 async function fetchRecords() {
+    console.log(urls);
     let records = await rest.get(urls.records);
     store.cursor.update(_ => records);
 

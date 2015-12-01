@@ -14,7 +14,7 @@ export default {
     },
 
     urls: {
-        users: '/api/records'
+        records: '/api/records'
     },
 
     keys: {

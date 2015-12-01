@@ -1,18 +1,25 @@
 import React from 'react';
 const {div} = React.DOM;
-import Notification from './ui/Notification';
-import Router, {RouteHandler} from './router-jsx';
-import {routeNames} from 'constants';
+import {emptyList} from 'constants';
 import component from 'component';
+import records from '../store/records';
 
-import Header from './Header';
+const recordPath = '@@recordsView/records';
 
 export default component({
-    displayName: 'Shell',
+    displayName: 'recordsView',
+
+    mixins: [records.store.connectTo([], recordPath)],
+
+    componentDidMount() {
+        records.actions.fetchRecords();
+    },
 
     render() {
+        let recordList = this.getViewState(recordPath, emptyList);
+
         return div({},
-            'records view'
+            recordList.map(x => div({}, x.toJS()))
         );
     }
 });
