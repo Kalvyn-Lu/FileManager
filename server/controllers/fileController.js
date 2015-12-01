@@ -7,55 +7,54 @@ let files = immutable.Map();
 const recordSize = 1024;
 
 class File {
-	constructor(id) {
-		this.name = '';
-		this.id = id !== undefined ? id:uuid();
-		this.records = []; // list of record ids
-		this.size = 0;
-	}
+    constructor(id) {
+        this.name = '';
+        this.id = id !== undefined ? id : uuid();
+        this.records = immutable.List();
+        this.size = 0;
+    }
 }
 
-
 async function getFiles() {
-	let fileArr = [];
-	for (let item of files){
-		fileArr.push(item);
-	}
-	return fileArr;
-	//return Promise.resolve({msg: 'we got some files!'});
+    return files.values();
 }
 
 async function getFile({id}) {
-	return files.get(id);
-	//return Promise.resolve({msg: `we got a file! ${id}`});
+    return files.get(id);
 }
 
 async function writeFile({id, data}) {
- 	let create = new File(id);
-	create.name = data.name;
-	let strData = data.content;
+    let create = files.get(id, new File(id));
+    create.name = data.name;
+    let strData = data.content;
 
-	for(let i = 0; i < strData.length; i+= recordSize){
-		let cSlice;
-		if(strData.length < (i + recordSize)){
-			cSlice = strData.slice(i,strData.length);
-		}else{
-			cSlice = strData.slice(i,recordSize);
-		}
-		create.records.push(recordController.writeRecord({data:cSlice}));
-	}
-	console.log(create.name);
-	console.log(data.content);
-	files = files.set(id,create);;
-	return Promise.resolve({msg: `we are updating a file! ${id}`});
+    let currentRecords = create.records;
+    let neededRecords = Math.floor(strData.length / recordSize);
+
+    // Create or update records based on the new content
+    for (let i = 0; i < neededRecords; i++) {
+        let recordId = currentRecords.getIn([i, 'id']);
+        let slice = strData.slice(i * recordSize, (i + 1) * recordSize);
+
+        let createdRecord = await recordController.writeRecord({id: recordId, data: slice});
+        create.records = create.records.concat(createdRecord);
+    }
+
+    // Deallocate unneeded records
+    currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.id}));
+
+    // Assign our new/updated file to the file table
+    files = files.set(id, create);
+
+    return Promise.resolve({msg: `we are updating a file! ${id}`});
 }
 
 async function deleteFile({id}) {
-	let toDel = files.get(id);
-	for(let rNum of toDel.records){
-		recordController.deleteRecord({id:rNum});
-	}
-	files = files.delete(id);
+    let toDel = files.get(id);
+    for(let rNum of toDel.records){
+        recordController.deleteRecord({id:rNum});
+    }
+    files = files.delete(id);
   return Promise.resolve({msg: `we are deleting a file! ${id}`});
 }
 
