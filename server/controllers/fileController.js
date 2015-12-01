@@ -1,22 +1,22 @@
 import uuid from 'tiny-uuid';
 import immutable from 'immutable';
-import recordController from './recordController'
+import recordController from './recordController';
 
 let files = immutable.Map();
 
 const recordSize = 1024;
 
-class File {
-    constructor(id) {
-        this.name = '';
-        this.id = id !== undefined ? id : uuid();
-        this.records = immutable.List();
-        this.size = 0;
-    }
+function file(id) {
+    return immutable.fromJS({
+        name: '',
+        id: id !== undefined ? id : uuid(),
+        records: immutable.List(),
+        size: 0
+    });
 }
 
 async function getFiles() {
-    return files.values();
+    return files;
 }
 
 async function getFile({id}) {
@@ -24,21 +24,23 @@ async function getFile({id}) {
 }
 
 async function writeFile({id, data}) {
-    let create = files.get(id, new File(id));
+    let create = files.get([id, 'id']);
     create.name = data.name;
     let strData = data.content;
 
+    let newRecords = immutable.List();
     let currentRecords = create.records;
     let neededRecords = Math.floor(strData.length / recordSize);
 
     // Create or update records based on the new content
     for (let i = 0; i < neededRecords; i++) {
-        let recordId = currentRecords.getIn([i, 'id']);
+        let recordId = currentRecords.get(i);
         let slice = strData.slice(i * recordSize, (i + 1) * recordSize);
 
         let createdRecord = await recordController.writeRecord({id: recordId, data: slice});
-        create.records = create.records.concat(createdRecord);
+        newRecords = newRecords.concat(createdRecord.id);
     }
+    create.records = newRecords;
 
     // Deallocate unneeded records
     currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.id}));
