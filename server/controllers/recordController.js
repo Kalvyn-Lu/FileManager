@@ -15,6 +15,9 @@ if (!fs.existsSync(dir)) {
 let records = immutable.Map();
 let cache = new LRUCache(cacheSize);
 
+persistToDisk();
+tableFromDisk();
+
 class Record {
     constructor(id, data) {
         this.id = id !== undefined ? id : getNextId();
@@ -25,6 +28,28 @@ class Record {
     toString() {
         return JSON.stringify(this);
     }
+}
+
+
+//
+async function persistToDisk(){
+  let recordsJson = JSON.stringify(records.toJS());
+  fs.writeFile('../RecordTable.json',recordsJson,function(err){
+    if(err){
+      console.log("Cannot persist to Disk");
+    }else{
+      console.log("It's Saved!");
+    }
+  });
+}
+
+async function tableFromDisk(){
+  try {
+    let data = await promisify(fs.readFile)('../RecordTable.json');
+    records = immutable.Map(JSON.parse(data));
+  } catch (err) {
+      console.error('Failed to load record table from disc');
+  }
 }
 
 // Reads data from the disc, and assigns it to the given record
@@ -62,6 +87,7 @@ function writeToDisc(record, data) {
         console.log('ERROR: ', e);
         throw new Error(`writeToDisc: Error writing to disc for record ${record.id}`);
     }
+    persistToDisk();
 }
 
 // Clears the file specified by the given id
@@ -69,7 +95,7 @@ function clearFile(id) {
     if (id === undefined) {
         throw new Error('clearFile: id not specified');
     }
-
+    persistToDisk();
     return promisify(fs.unlink)(`${dir}/${id}.${ext}`);
 }
 
@@ -112,7 +138,7 @@ async function writeRecord({id, data}) {
     writeToDisc(record, data);
     bumpCache(record);
     records = records.set(record.id, record);
-    
+    persistToDisk();
     return record;
 }
 
@@ -121,7 +147,7 @@ async function deleteRecord({id}) {
     records = records.remove(id);
     cache.remove(id);
     clearFile(id);
-
+    persistToDisk();
     return true;
 }
 
