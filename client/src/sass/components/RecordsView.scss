@@ -1,7 +1,19 @@
 @import '../api/helpers';
 
+.fm-record-list {
+	width: 95%;
+	max-width: 700px;
+	margin: 0 auto;
+}
+
 .fm-record-item {
 	@include flexbox();
+	margin-bottom: 5px;
+}
+
+.fm-record-item-header {
+	border-bottom: 1px solid #333;
+	padding-bottom: 5px;
 }
 
 .fm-record-item-id {
@@ -9,13 +21,18 @@
 }
 
 .fm-record-size {
-
+	@include flex(0 0 100px);
 }
 
 .fm-record-size-bar {
-
+	@include flex(1 0 200px);
+	position: relative;
+	border: 1px solid #ccc;
 }
 
 .fm-record-size-bar-fill {
+	position: absolute;
+	top: 0;
+	bottom: 0;
 	background-color: green;
 }
