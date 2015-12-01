@@ -1,9 +1,9 @@
 import React from 'react';
-const {div} = React.DOM;
+const {div, h4} = React.DOM;
 import Router from './router-jsx';
 import component from 'component';
 import records from '../store/records';
-import {emptyMap} from 'constants';
+import {emptyMap, emptyList} from 'constants';
 
 const recordPath = ['@@recordsView/record'];
 
@@ -27,15 +27,23 @@ export default component({
     },
 
     render() {
-        let record = this.getViewState([recordPath, this.getRecordId()], emptyMap);
+        let record = this.getViewState(recordPath.concat(this.getRecordId()), emptyMap);
+        console.log(record);
 
-        return div({},
-            'record view',
-            JSON.stringify(record.toJS())
+        let list = record.get('buffer', emptyList).toArray();
+        let contents = new Buffer(list).toString('hex');
+
+        return div({className: 'fm-content'},
+            h4({className: 'fm-record-view-header'}, `Record View: ${this.getRecordId()}`),
+            div({className: 'fm-record-view-size'},
+                `Size: ${record.get('size')}`
+            ),
+            div({className: 'fm-record-view-content-header'}, 'Contents:'),
+            div({className: 'fm-record-view-content'}, contents)
         );
     },
 
     getRecordId(props) {
-        return decodeURIComponent((props || this.props).params.recordId);
+        return Number(decodeURIComponent((props || this.props).params.recordId));
     }
 });
