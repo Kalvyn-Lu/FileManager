@@ -138,6 +138,7 @@ async function writeRecord({id, data}) {
     writeToDisc(record, data);
     bumpCache(record);
     records = records.set(record.id, record);
+
     persistToDisk();
     return record;
 }
