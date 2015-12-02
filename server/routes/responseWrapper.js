@@ -1,6 +1,5 @@
 export default {
     success: (res, headers = {}) => (response) => {
-        console.log(headers);
         Object.keys(headers).forEach(key => {
             let value = headers[key];
             res.setHeader(key, value);

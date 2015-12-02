@@ -5,7 +5,8 @@ import fs from 'fs';
 import LRUCache from '../vendor/LRUCache';
 
 const cacheSize = 1000;
-const dir = './tmp';
+const dir = '../tmp';
+const recordTableFile = 'RecordTable.json';
 const ext = 'rec';
 
 if (!fs.existsSync(dir)) {
@@ -14,8 +15,6 @@ if (!fs.existsSync(dir)) {
 
 let records = immutable.Map();
 let cache = new LRUCache(cacheSize);
-
-persistToDisk();
 tableFromDisk();
 
 class Record {
@@ -30,26 +29,28 @@ class Record {
     }
 }
 
+async function persistToDisk() {
+    let shortRecords = await getRecords();
+    let recordsJson = JSON.stringify(shortRecords.toJS());
 
-//
-async function persistToDisk(){
-  let recordsJson = JSON.stringify(records.toJS());
-  fs.writeFile('../RecordTable.json',recordsJson,function(err){
-    if(err){
-      console.log("Cannot persist to Disk");
-    }else{
-      console.log("It's Saved!");
-    }
-  });
+    fs.writeFile(`${dir}/${recordTableFile}`, recordsJson, function(err) {
+        if (err) {
+            console.log("Cannot persist to Disk");
+        } else {
+            console.log("It's Saved!");
+        }
+    });
 }
 
-async function tableFromDisk(){
-  try {
-    let data = await promisify(fs.readFile)('../RecordTable.json');
-    records = immutable.Map(JSON.parse(data));
-  } catch (err) {
-      console.error('Failed to load record table from disc');
-  }
+async function tableFromDisk() {
+    try {
+        let data = await promisify(fs.readFile)(`${dir}/${recordTableFile}`);
+        let parsed = JSON.parse(data);
+
+        records = immutable.Map(parsed).mapEntries(([k, v]) => [Number(k), v]);
+    } catch (err) {
+        console.error('Failed to load record table from disc');
+    }
 }
 
 // Reads data from the disc, and assigns it to the given record
