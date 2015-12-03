@@ -29,6 +29,8 @@ async function persistToDiskFile() {
   let shortFiles = await getFiles();
   let filesJson = JSON.stringify(shortFiles.toJS());
 
+  // console.log(filesJson);
+
   fs.writeFile(`${dir}/${fileMap}`, filesJson, function(err) {
       if (err) {
           console.log("File map cannot persist to Disk");
@@ -92,6 +94,7 @@ async function deleteFile({id}) {
     files.getIn([id, 'records']).forEach(x => recordController.deleteRecord({id: x.get('id')}));
     files = files.delete(id);
 
+    console.log(files);
     // Update persist file for file map
     persistToDiskFile();
 
