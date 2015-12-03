@@ -1,11 +1,20 @@
 import uuid from 'tiny-uuid';
 import immutable from 'immutable';
+import fs from 'fs';
+import promisify from 'es6-promisify';
 import recordController from './recordController';
 
 let files = immutable.Map();
 
 const recordSize = 1024;
-const fileMap = "FileMap.json";
+const dir = '../tmp';
+const fileMap = 'FileMap.json';
+
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+}
+
+mapFromDisk();
 
 function newFile(id) {
     return immutable.fromJS({
@@ -14,6 +23,30 @@ function newFile(id) {
         records: immutable.List(),
         size: 0
     });
+}
+
+async function persistToDiskFile() {
+  let shortFiles = await getFiles();
+  let filesJson = JSON.stringify(shortFiles.toJS());
+
+  fs.writeFile(`${dir}/${fileMap}`, filesJson, function(err) {
+      if (err) {
+          console.log("File map cannot persist to Disk");
+      } else {
+          console.log("File Map Saved!");
+      }
+  });
+}
+
+async function mapFromDisk() {
+    try {
+        let data = await promisify(fs.readFile)(`${dir}/${fileMap}`);
+        let parsed = JSON.parse(data);
+
+        files = immutable.Map(parsed).mapEntries(([k, v]) => [Number(k), v]);
+    } catch (err) {
+        console.error('Failed to load file map from disc');
+    }
 }
 
 async function getFiles() {
@@ -49,6 +82,7 @@ async function writeFile({id, data}) {
     // Assign our new/updated file to the file table
     files = files.set(id, file);
 
+    // Update persist file for file map
     persistToDiskFile();
 
     return getFile({id});
@@ -58,22 +92,10 @@ async function deleteFile({id}) {
     files.getIn([id, 'records']).forEach(x => recordController.deleteRecord({id: x.get('id')}));
     files = files.delete(id);
 
+    // Update persist file for file map
     persistToDiskFile();
 
     return true;
-}
-
-async function persistToDiskFile() {
-  let shortFiles = await getFiles();
-  let filesJson = JSON.stringify(shortFiles.toJS());
-
-  fs.writeFile(`${dir}/${FileMap}`, filesJson, function(err) {
-      if (err) {
-          console.log("File map cannot persist to Disk");
-      } else {
-          console.log("File Map Saved!");
-      }
-  });
 }
 
 export default {
