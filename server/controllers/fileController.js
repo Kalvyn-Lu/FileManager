@@ -5,6 +5,7 @@ import recordController from './recordController';
 let files = immutable.Map();
 
 const recordSize = 1024;
+const fileMap = "FileMap.json";
 
 function newFile(id) {
     return immutable.fromJS({
@@ -48,6 +49,8 @@ async function writeFile({id, data}) {
     // Assign our new/updated file to the file table
     files = files.set(id, file);
 
+    persistToDiskFile();
+
     return getFile({id});
 }
 
@@ -55,7 +58,22 @@ async function deleteFile({id}) {
     files.getIn([id, 'records']).forEach(x => recordController.deleteRecord({id: x.get('id')}));
     files = files.delete(id);
 
+    persistToDiskFile();
+
     return true;
+}
+
+async function persistToDiskFile() {
+  let shortFiles = await getFiles();
+  let filesJson = JSON.stringify(shortFiles.toJS());
+
+  fs.writeFile(`${dir}/${FileMap}`, filesJson, function(err) {
+      if (err) {
+          console.log("File map cannot persist to Disk");
+      } else {
+          console.log("File Map Saved!");
+      }
+  });
 }
 
 export default {
