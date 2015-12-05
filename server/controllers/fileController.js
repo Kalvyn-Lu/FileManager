@@ -14,8 +14,6 @@ if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
 
-mapFromDisk();
-
 function newFile(id) {
     return immutable.fromJS({
         name: '',

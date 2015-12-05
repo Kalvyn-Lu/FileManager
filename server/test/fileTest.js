@@ -1,6 +1,6 @@
 import fileController from '../controllers/fileController';
 
-let {writeFile, deleteFile, getFiles, getFile} = fileController;
+let {writeFile, deleteFile, getFiles, getFile, mapFromDisk} = fileController;
 async function test() {
 	console.log('file test running');
     // console.log('writing record 1');
@@ -31,6 +31,8 @@ async function test() {
     // console.log('getRecord:\n', fullRecord);
     // console.log('getRecords:\n', abbvRecord.toJS());
     // console.l`og('records:\n', _getRecords().toJS());
+
+		await mapFromDisk();
 
 		console.log("writetest");
 		let file = {
