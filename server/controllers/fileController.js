@@ -53,13 +53,26 @@ async function getFiles() {
 }
 
 async function getFile({id}) {
-    return files.get(id);
+    let file = files.get(id);
+    if (!file) {
+        return null;
+    }
+
+    let records = file.get('records');
+    let content = '';
+    for (let i = 0; i < records.size; i++) {
+        let record = await recordController.getRecord({id: records.get(i)});
+        content = content.concat(record.buffer.toString());
+    }
+    file = file.set('content', content);
+
+    return file;
 }
 
 async function writeFile({id, data}) {
     let {name, content} = data;
     let file = files.get(id, newFile(id));
-    file = file.set('name', name);
+    file = file.set('name', name).set('size', content.length);
 
     let currentRecords = file.get('records');
     let neededRecords = Math.floor(content.length / recordSize) + 1;
