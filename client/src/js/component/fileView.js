@@ -83,7 +83,7 @@ export default component({
                 file = file.set('content', text);
                 files.actions.updateFile(file);
             }
-        }, 500);
+        }, 1000);
     },
 
     getFileId(props) {

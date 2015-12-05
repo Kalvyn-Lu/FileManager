@@ -21,7 +21,7 @@ const routes =
             DefaultRoute({name: routeNames.recordList, handler: recordsView.jsx}),
             Route({name: routeNames.record, path: ':recordId', handler: recordView.jsx})
         ),
-        Route({name: routeNames.createFile, handler: RouteHandler.jsx})
+        Route({name: routeNames.createFile, handler: createFileView.jsx})
     );
 
 export function runRouter(callback) {
