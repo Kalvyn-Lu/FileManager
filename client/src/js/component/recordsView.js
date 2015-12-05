@@ -19,7 +19,7 @@ export default component({
     },
 
     render() {
-        let recordList = this.getViewState(recordPath, emptyList);
+        let recordList = this.getViewState(recordPath, emptyList).sort((a, b) => a.get('id') < b.get('id') ? -1 : 1);
 
         return div({className: 'fm-content'},
             div({className: 'fm-record-list'},
