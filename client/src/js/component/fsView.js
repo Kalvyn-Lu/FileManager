@@ -21,14 +21,15 @@ export default component({
     },
 
     render() {
-        let filesList = this.getViewState(filesPath, emptyList);
+        let filesList = this.getViewState(filesPath, emptyList).toList();
+
         return div({className: 'fm-content'},
             div({className: 'fm-narrow-content'},
                 ReactDropzone({className: 'fm-file-upload', onDrop: this.onDrop},
                     div({className: 'fm-file-upload-msg'}, 'Click or drag a file to upload!')
                 ),
                 div({className: 'fm-file-list'},
-                    div({className:'fm-file-item-header'},
+                    div({className: 'fm-file-item-header'},
                         div({className: 'fm-file-item-id'}, 'ID'),
                         div({className: 'fm-file-item-name'}, 'Name'),
                         div({className: 'fm-file-size'}, 'Size')
@@ -37,9 +38,8 @@ export default component({
                 filesList.map(x => {
                     return Link({className: 'fm-file-item', to: routeNames.file, params: {fileId: x.get('id')}},
                         div({className: 'fm-file-item-id'}, x.get('id')),
-                        div({className: 'fm-file-size'}, x.get('size')),
-                        div({className: 'fm-file-size-bar'}
-                        )
+                        div({className: 'fm-file-item-name'}, x.get('name')),
+                        div({className: 'fm-file-size'}, x.get('size'))
                     );
                 })
             )

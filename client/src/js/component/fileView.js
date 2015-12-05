@@ -2,7 +2,7 @@ import React from 'react';
 const {div, h4} = React.DOM;
 import Router from './router-jsx';
 import component from 'component';
-import records from '../store/records';
+import files from '../store/files';
 import {emptyMap, emptyList} from 'constants';
 
 const filePath = ['@@filesView/file'];

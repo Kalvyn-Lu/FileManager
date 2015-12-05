@@ -7,7 +7,9 @@ export default {
     emptySet: immutable.Set(),
 
     routeNames: {
-        fs: 'fs',
+        files: 'files',
+        fileList: 'fileList',
+        file: 'file',
         records: 'records',
         recordList: 'recordList',
         record: 'record'
