@@ -17,7 +17,7 @@ export default component({
     ],
 
     componentDidMount() {
-        files.actions.fetchfile(this.getFileId());
+        files.actions.fetchFile(this.getFileId());
     },
 
     componentWillReceiveProps(nextProps) {
@@ -30,8 +30,8 @@ export default component({
         let file = this.getViewState(filePath.concat(this.getFileId()), emptyMap);
         console.log(file);
 
-        return div({className: 'fm-content'}
-
+        return div({className: 'fm-content'},
+            'file view'
         );
     },
 
