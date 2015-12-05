@@ -30,8 +30,22 @@ export default component({
         let file = this.getViewState(filePath.concat(this.getFileId()), emptyMap);
         console.log(file);
 
+        let name = file.get('name');
+        let id = file.get('id');
+        let records = file.get('records');
+        console.log(records);
+
         return div({className: 'fm-content'},
-            'file view'
+            div({className: 'fm-file-view-content-header'},'Name:'),
+            div({className: 'fm-file-view-content'},name),
+
+            div({className: 'fm-file-view-content-header'},'ID'),
+            div({className: 'fm-file-view-content'}, id),
+
+            div({className: 'fm-file-view-content-header'}, 'Record Numbers:'),
+            records.map(x => {
+                return div({className: 'fm-file-view-content'}, x.get())
+            })
         );
     },
 
