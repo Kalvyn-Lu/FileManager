@@ -1,5 +1,5 @@
 import React from 'react';
-const {div, h4, textarea} = React.DOM;
+const {div, textarea, input} = React.DOM;
 import Router from './router-jsx';
 import component from 'component';
 import files from '../store/files';
@@ -19,13 +19,15 @@ export default component({
 
     getInitialState() {
         return {
-            'editText': ''
+            editText: '',
+            editName: ''
         };
     },
 
     componentDidMount() {
         files.actions.fetchFile(this.getFileId()).then(x => {
             this.setViewState('editText', x.get('content'));
+            this.setViewState('editName', x.get('name'));
         });
 
         let elem = React.findDOMNode(this.refs.textarea);
@@ -41,6 +43,7 @@ export default component({
         if (this.props.params.fileId !== nextProps.params.fileId) {
             files.actions.fetchFile(this.getFileId(nextProps)).then(x => {
                 this.setViewState('editText', x.get('content'));
+                this.setViewState('editName', x.get('name'));
             });
         }
     },
@@ -48,14 +51,16 @@ export default component({
     render() {
         let file = this.getViewState(filePath.concat(this.getFileId()), emptyMap);
         let editText = this.getViewState('editText');
+        let editName = this.getViewState('editName');
 
-        let name = file.get('name');
         let id = file.get('id');
         let records = file.get('records', emptyList);
 
         return div({className: 'fm-content'},
             div({className: 'fm-file-view-content-header'},'Name:'),
-            div({className: 'fm-file-view-content'},name),
+            div({className: 'fm-file-view-content'},
+                input({type: 'text', value: editName, onChange: this.onNameChange, onBlur: this.onNameBlur})
+            ),
 
             div({className: 'fm-file-view-content-header'},'ID'),
             div({className: 'fm-file-view-content'}, id),
@@ -84,6 +89,17 @@ export default component({
                 files.actions.updateFile(file);
             }
         }, 1000);
+    },
+
+    onNameChange(e) {
+        this.setViewState('editName', e.target.value);
+    },
+
+    onNameBlur(e) {
+        let file = this.getViewState(filePath.concat(this.getFileId()), emptyMap);
+        file = file.set('name', e.target.value);
+
+        files.actions.updateFile(file);
     },
 
     getFileId(props) {
