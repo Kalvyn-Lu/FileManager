@@ -36,7 +36,7 @@ export default component({
         return div({className: 'fm-content'},
             h4({className: 'fm-record-view-header'}, `Record View: ${this.getRecordId()}`),
             div({className: 'fm-record-view-size'},
-                `Size: ${record.get('size')}`
+                `Size: ${record.get('size', 0)}`
             ),
             div({className: 'fm-record-view-content-header'}, 'Contents:'),
             div({className: 'fm-record-view-content'}, contents)
