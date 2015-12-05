@@ -44,7 +44,7 @@ export default component({
 
             div({className: 'fm-file-view-content-header'}, 'Record Numbers:'),
             records.map(x => {
-                return div({className: 'fm-file-view-content'}, x.get())
+                return div({className: 'fm-file-view-content'}, x.get('id'))
             })
         );
     },
