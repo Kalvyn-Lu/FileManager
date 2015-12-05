@@ -1,5 +1,5 @@
 import React from 'react';
-const {div} = React.DOM;
+const {div, button} = React.DOM;
 import {emptyList, routeNames} from 'constants';
 import component from 'component';
 import files from '../store/files';
@@ -32,14 +32,16 @@ export default component({
                     div({className: 'fm-file-item-header'},
                         div({className: 'fm-file-item-id'}, 'ID'),
                         div({className: 'fm-file-item-name'}, 'Name'),
-                        div({className: 'fm-file-size'}, 'Size')
+                        div({className: 'fm-file-size'}, 'Size'),
+                        div({className: 'fm-file-delete'})
                     )
                 ),
                 filesList.map(x => {
                     return Link({className: 'fm-file-item', to: routeNames.file, params: {fileId: x.get('id')}},
                         div({className: 'fm-file-item-id'}, x.get('id')),
                         div({className: 'fm-file-item-name'}, x.get('name')),
-                        div({className: 'fm-file-size'}, x.get('size'))
+                        div({className: 'fm-file-size'}, x.get('size')),
+                        div({className: 'fm-file-delete'}, button({onClick: this.onDelete(x)}, 'x'))
                     );
                 })
             )
@@ -58,5 +60,14 @@ export default component({
 
             reader.readAsBinaryString(file);
         });
+    },
+
+    onDelete(file) {
+        return e => {
+            console.log('click');
+            e.stopPropagation();
+            e.preventDefault();
+            files.actions.deleteFile(file.get('id'));
+        };
     }
 });
