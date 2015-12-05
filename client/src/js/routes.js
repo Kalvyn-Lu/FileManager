@@ -6,6 +6,7 @@ import fsView from './component/fsView';
 import fileView from './component/fileView';
 import recordsView from './component/recordsView';
 import recordView from './component/recordView';
+import createFileView from './component/createFileView';
 
 // Configure routes
 // react-router expects JSX-compatible elements for its handlers
@@ -19,7 +20,8 @@ const routes =
         Route({name: routeNames.records, handler: RouteHandler.jsx},
             DefaultRoute({name: routeNames.recordList, handler: recordsView.jsx}),
             Route({name: routeNames.record, path: ':recordId', handler: recordView.jsx})
-        )
+        ),
+        Route({name: routeNames.createFile, handler: RouteHandler.jsx})
     );
 
 export function runRouter(callback) {
