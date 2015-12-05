@@ -18,9 +18,29 @@ async function fetchFile(id) {
     return file;
 }
 
+async function updateFile(file) {
+    let result = await rest.post(`${urls.files}/${file.get('id', '')}`);
+    store.cursor().set(result.id, result);
+
+    return result;
+}
+
+async function deleteFile(id) {
+    try {
+        await rest.del(id);
+        store.cursor().remove(id);
+
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 const actions = {
     fetchFiles: createAction(fetchFiles),
-    fetchFile: createAction(fetchFile)
+    fetchFile: createAction(fetchFile),
+    updateFile: createAction(updateFile),
+    deleteFile: createAction(deleteFile)
 };
 
 export default {
