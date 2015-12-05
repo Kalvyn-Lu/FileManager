@@ -65,9 +65,25 @@ export default component({
                 return div({className: 'fm-file-view-content'}, x);
             }),
             div({className: 'fm-file-view-text'},
-                textarea({value: editText, ref: 'textarea', className: 'fm-file-view-text-content'})
+                textarea({value: editText, ref: 'textarea', className: 'fm-file-view-text-content', onChange: this.onTextChange})
             )
         );
+    },
+
+    onTextChange(e) {
+        let text = e.target.value;
+        this.setViewState('editText', text);
+
+        let currentTime = new Date().getTime();
+        this._debounceTime = new Date().getTime();
+        setTimeout(() => {
+            if (currentTime === this._debounceTime) {
+                let file = this.getViewState(filePath.concat(this.getFileId()), emptyMap);
+
+                file = file.set('content', text);
+                files.actions.updateFile(file);
+            }
+        }, 500);
     },
 
     getFileId(props) {
