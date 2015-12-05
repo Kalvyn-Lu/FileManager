@@ -19,10 +19,16 @@ export default component({
 
     render() {
         let filesList = this.getViewState(filesPath, emptyList);
-
-        return div({className: 'content'},'fsView',
+        return div({className: 'fm-content'},
+            div({className: 'fm-file-list'},
+                div({className:'fm-file-item-header'},
+                    div({className: 'fm-file-item-id'}, 'ID'),
+                    div({className: 'fm-file-item-name'}, 'Name'),
+                    div({className: 'fm-file-size'}, 'Size')
+                )
+            ),
             filesList.map(x => {
-                
+                div({})
             })
         );
     }
