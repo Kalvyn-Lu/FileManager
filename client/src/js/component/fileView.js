@@ -107,6 +107,7 @@ export default component({
 
                 file = file.set('content', text);
                 files.actions.updateFile(file);
+                records.actions.fetchRecords();
             }
         }, 1000);
     },
