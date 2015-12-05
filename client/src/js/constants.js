@@ -14,7 +14,8 @@ export default {
     },
 
     urls: {
-        records: '/api/records'
+        records: '/api/records',
+        files: '/api/files'
     },
 
     keys: {
