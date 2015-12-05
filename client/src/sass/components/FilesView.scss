@@ -24,21 +24,19 @@
 }
 
 .fm-file-item-id {
-	@include flex(0 0 300px);
+	@include flex(1 0 300px);
 }
 
 .fm-file-item-name {
-	@include flex(0 0 100px);
+	@include flex(1 0 100px);
 }
 
 .fm-file-size {
-	@include flex(0 0 100px);
+	@include flex(0 0 60px);
 }
 
-.fm-file-size-bar {
-	@include flex(1 0 200px);
-	position: relative;
-	border: 1px solid #ccc;
+.fm-file-delete {
+	@include flex(0 0 30px);	
 }
 
 .fm-file-size-bar-fill {

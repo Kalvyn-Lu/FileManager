@@ -26,14 +26,14 @@ async function updateFile(file) {
 
     let payload = {data: {name: file.get('name'), content: file.get('content')}};
     let result = await rest.post(`${urls.files}/${file.get('id', '')}`, payload);
-    store.cursor().set(result.id, result);
+    store.cursor().set(result.get('id'), result);
 
     return result;
 }
 
 async function deleteFile(id) {
     try {
-        await rest.del(id);
+        await rest.del(`${urls.files}/${id}`);
         store.cursor().remove(id);
 
         return true;
