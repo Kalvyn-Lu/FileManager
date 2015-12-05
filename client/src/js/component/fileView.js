@@ -28,12 +28,10 @@ export default component({
 
     render() {
         let file = this.getViewState(filePath.concat(this.getFileId()), emptyMap);
-        console.log(file);
 
         let name = file.get('name');
         let id = file.get('id');
-        let records = file.get('records');
-        console.log(records);
+        let records = file.get('records', emptyList);
 
         return div({className: 'fm-content'},
             div({className: 'fm-file-view-content-header'},'Name:'),
@@ -44,7 +42,7 @@ export default component({
 
             div({className: 'fm-file-view-content-header'}, 'Record Numbers:'),
             records.map(x => {
-                return div({className: 'fm-file-view-content'}, x.get())
+                return div({className: 'fm-file-view-content'}, x)
             })
         );
     },
