@@ -44,7 +44,7 @@ async function mapFromDisk() {
         let data = await promisify(fs.readFile)(`${dir}/${fileMap}`);
         let parsed = JSON.parse(data);
 
-        files = immutable.Map(parsed);
+        files = immutable.fromJS(parsed);
     } catch (err) {
         console.error('Failed to load file map from disc');
     }
@@ -55,31 +55,33 @@ async function getFiles() {
 }
 
 async function getFile({id}) {
-    return files.get(id).toJS();
+    return files.get(id);
 }
 
 async function writeFile({id, data}) {
     let {name, content} = data;
-    let file = files.get([id, 'id'], newFile(id));
+    let file = files.get(id, newFile(id));
+    console.log(file);
     file = file.set('name', name);
 
-    let newRecords = immutable.List();
     let currentRecords = file.get('records');
     let neededRecords = Math.floor(content.length / recordSize) + 1;
+    file = file.set('records', immutable.List());
+
+    console.log(neededRecords, file.get('records'));
 
     // Create or update records based on the new content
     for (let i = 0; i < neededRecords; i++) {
         let recordId = currentRecords.get(i);
         let slice = content.slice(i * recordSize, (i + 1) * recordSize);
-        console.log(neededRecords, i, slice);
-
         let createdRecord = await recordController.writeRecord({id: recordId, data: slice});
-        console.log(createdRecord);
+
         file = file.update('records', x => x.concat(createdRecord.id));
     }
+    console.log(neededRecords, file.get('records'));
 
     // Deallocate unneeded records
-    currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.get('id')}));
+    currentRecords.slice(neededRecords).forEach(recordId => recordController.deleteRecord({id: recordId}));
 
     // Assign our new/updated file to the file table
     files = files.set(file.get('id'), file);
@@ -91,10 +93,9 @@ async function writeFile({id, data}) {
 }
 
 async function deleteFile({id}) {
-    files.getIn([id, 'records']).forEach(x => recordController.deleteRecord({id: x.get('id')}));
+    files.getIn([id, 'records'], immutable.List()).forEach(id => recordController.deleteRecord({id}));
     files = files.delete(id);
 
-    console.log(files);
     // Update persist file for file map
     persistToDiskFile();
 
