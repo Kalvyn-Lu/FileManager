@@ -32,7 +32,11 @@
 }
 
 .fm-file-size {
-	@include flex(0 0 50px);
+	@include flex(0 0 60px);
+}
+
+.fm-file-delete {
+	@include flex(0 0 30px);	
 }
 
 .fm-file-size-bar-fill {

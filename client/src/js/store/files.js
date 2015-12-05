@@ -33,7 +33,7 @@ async function updateFile(file) {
 
 async function deleteFile(id) {
     try {
-        await rest.del(id);
+        await rest.del(`${urls.files}/${id}`);
         store.cursor().remove(id);
 
         return true;
