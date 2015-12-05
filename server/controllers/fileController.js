@@ -4,11 +4,12 @@ import fs from 'fs';
 import promisify from 'es6-promisify';
 import recordController from './recordController';
 
-let files = immutable.Map();
-
 const recordSize = 1024;
 const dir = '../tmp';
 const fileMap = 'FileMap.json';
+
+let files = immutable.Map();
+mapFromDisk();
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -43,7 +44,7 @@ async function mapFromDisk() {
         let data = await promisify(fs.readFile)(`${dir}/${fileMap}`);
         let parsed = JSON.parse(data);
 
-        files = immutable.Map(parsed).mapEntries(([k, v]) => [Number(k), v]);
+        files = immutable.Map(parsed);
     } catch (err) {
         console.error('Failed to load file map from disc');
     }
