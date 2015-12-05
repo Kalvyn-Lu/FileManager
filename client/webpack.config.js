@@ -26,8 +26,7 @@ module.exports = {
 
             'react',
             'react/addons',
-            'react-router',
-            'react-bootstrap'
+            'react-router'
         ]
     },
     output: {
