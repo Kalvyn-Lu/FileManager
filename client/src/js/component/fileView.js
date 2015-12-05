@@ -1,9 +1,10 @@
 import React from 'react';
-const {div, h4} = React.DOM;
+const {div, h4, textarea} = React.DOM;
 import Router from './router-jsx';
 import component from 'component';
 import files from '../store/files';
 import {emptyMap, emptyList} from 'constants';
+import autosize from 'autosize';
 
 const filePath = ['@@filesView/file'];
 
@@ -16,18 +17,37 @@ export default component({
         files.store.connectTo([], filePath)
     ],
 
+    getInitialState() {
+        return {
+            'editText': ''
+        };
+    },
+
     componentDidMount() {
-        files.actions.fetchFile(this.getFileId());
+        files.actions.fetchFile(this.getFileId()).then(x => {
+            this.setViewState('editText', x.get('content'));
+        });
+
+        let elem = React.findDOMNode(this.refs.textarea);
+        autosize(elem);
+    },
+
+    componentDidUpdate() {
+        let elem = React.findDOMNode(this.refs.textarea);
+        autosize.update(elem);
     },
 
     componentWillReceiveProps(nextProps) {
         if (this.props.params.fileId !== nextProps.params.fileId) {
-            files.actions.fetchFile(this.getFileId(nextProps));
+            files.actions.fetchFile(this.getFileId(nextProps)).then(x => {
+                this.setViewState('editText', x.get('content'));
+            });
         }
     },
 
     render() {
         let file = this.getViewState(filePath.concat(this.getFileId()), emptyMap);
+        let editText = this.getViewState('editText');
 
         let name = file.get('name');
         let id = file.get('id');
@@ -42,8 +62,11 @@ export default component({
 
             div({className: 'fm-file-view-content-header'}, 'Record Numbers:'),
             records.map(x => {
-                return div({className: 'fm-file-view-content'}, x)
-            })
+                return div({className: 'fm-file-view-content'}, x);
+            }),
+            div({className: 'fm-file-view-text'},
+                textarea({value: editText, ref: 'textarea', className: 'fm-file-view-text-content'})
+            )
         );
     },
 
