@@ -1,9 +1,6 @@
 @import '../api/helpers';
 
 .fm-file-list {
-	width: 95%;
-	max-width: 700px;
-	margin: 0 auto;
 }
 
 .fm-file-item {
@@ -27,7 +24,7 @@
 }
 
 .fm-file-item-id {
-	@include flex(0 0 100px);
+	@include flex(0 0 300px);
 }
 
 .fm-file-item-name {
