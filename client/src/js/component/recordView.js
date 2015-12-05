@@ -30,8 +30,8 @@ export default component({
         let record = this.getViewState(recordPath.concat(this.getRecordId()), emptyMap);
         console.log(record);
 
-        let list = record.get('buffer', emptyList).toArray();
-        let contents = new Buffer(list).toString('hex');
+        let list = record.get('buffer', emptyList);
+        let contents = new Buffer(list).toString();
 
         return div({className: 'fm-content'},
             h4({className: 'fm-record-view-header'}, `Record View: ${this.getRecordId()}`),
