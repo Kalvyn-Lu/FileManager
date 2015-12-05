@@ -35,7 +35,7 @@ export default component({
         );
     },
 
-    getRecordId(props) {
-        return Number(decodeURIComponent((props || this.props).params.recordId));
+    getFileId(props) {
+        return decodeURIComponent((props || this.props).params.fileId);
     }
 });
