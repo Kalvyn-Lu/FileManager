@@ -28,8 +28,6 @@ async function persistToDiskFile() {
   let shortFiles = await getFiles();
   let filesJson = JSON.stringify(shortFiles.toJS());
 
-  console.log(filesJson);
-
   fs.writeFile(`${dir}/${fileMap}`, filesJson, function(err) {
       if (err) {
           console.log("File map cannot persist to Disk");
@@ -61,14 +59,11 @@ async function getFile({id}) {
 async function writeFile({id, data}) {
     let {name, content} = data;
     let file = files.get(id, newFile(id));
-    console.log(file);
     file = file.set('name', name);
 
     let currentRecords = file.get('records');
     let neededRecords = Math.floor(content.length / recordSize) + 1;
     file = file.set('records', immutable.List());
-
-    console.log(neededRecords, file.get('records'));
 
     // Create or update records based on the new content
     for (let i = 0; i < neededRecords; i++) {
@@ -78,7 +73,6 @@ async function writeFile({id, data}) {
 
         file = file.update('records', x => x.concat(createdRecord.id));
     }
-    console.log(neededRecords, file.get('records'));
 
     // Deallocate unneeded records
     currentRecords.slice(neededRecords).forEach(recordId => recordController.deleteRecord({id: recordId}));
