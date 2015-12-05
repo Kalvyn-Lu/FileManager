@@ -28,7 +28,10 @@ export default component({
                 )
             ),
             filesList.map(x => {
-                div({})
+
+                // return Link({className: 'fm-file-item', to: routeNames.file, params: {fileId: x.get('id')}},
+                //     div({className: 'fm-file-item-id'},x.get('id'))
+                // );
             })
         );
     }
