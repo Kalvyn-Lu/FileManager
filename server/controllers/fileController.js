@@ -54,7 +54,7 @@ async function getFiles() {
 }
 
 async function getFile({id}) {
-    return files.get(id);
+    return files.get(id).toJS();
 }
 
 async function writeFile({id, data}) {
@@ -64,17 +64,18 @@ async function writeFile({id, data}) {
 
     let newRecords = immutable.List();
     let currentRecords = file.get('records');
-    let neededRecords = Math.floor(content.length / recordSize);
+    let neededRecords = Math.floor(content.length / recordSize) + 1;
 
     // Create or update records based on the new content
     for (let i = 0; i < neededRecords; i++) {
         let recordId = currentRecords.get(i);
         let slice = content.slice(i * recordSize, (i + 1) * recordSize);
+        console.log(neededRecords, i, slice);
 
         let createdRecord = await recordController.writeRecord({id: recordId, data: slice});
-        newRecords = newRecords.concat(createdRecord.id);
+        console.log(createdRecord);
+        file = file.update('records', x => x.concat(createdRecord.id));
     }
-    file.records = newRecords;
 
     // Deallocate unneeded records
     currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.get('id')}));
@@ -85,7 +86,7 @@ async function writeFile({id, data}) {
     // Update persist file for file map
     persistToDiskFile();
 
-    return getFile({id});
+    return file;
 }
 
 async function deleteFile({id}) {
