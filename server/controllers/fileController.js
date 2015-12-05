@@ -4,11 +4,12 @@ import fs from 'fs';
 import promisify from 'es6-promisify';
 import recordController from './recordController';
 
-let files = immutable.Map();
-
 const recordSize = 1024;
 const dir = '../tmp';
 const fileMap = 'FileMap.json';
+
+let files = immutable.Map();
+mapFromDisk();
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -43,7 +44,7 @@ async function mapFromDisk() {
         let data = await promisify(fs.readFile)(`${dir}/${fileMap}`);
         let parsed = JSON.parse(data);
 
-        files = immutable.Map(parsed).mapEntries(([k, v]) => [Number(k), v]);
+        files = immutable.Map(parsed);
     } catch (err) {
         console.error('Failed to load file map from disc');
     }
@@ -54,7 +55,7 @@ async function getFiles() {
 }
 
 async function getFile({id}) {
-    return files.get(id);
+    return files.get(id).toJS();
 }
 
 async function writeFile({id, data}) {
@@ -64,17 +65,18 @@ async function writeFile({id, data}) {
 
     let newRecords = immutable.List();
     let currentRecords = file.get('records');
-    let neededRecords = Math.floor(content.length / recordSize);
+    let neededRecords = Math.floor(content.length / recordSize) + 1;
 
     // Create or update records based on the new content
     for (let i = 0; i < neededRecords; i++) {
         let recordId = currentRecords.get(i);
         let slice = content.slice(i * recordSize, (i + 1) * recordSize);
+        console.log(neededRecords, i, slice);
 
         let createdRecord = await recordController.writeRecord({id: recordId, data: slice});
-        newRecords = newRecords.concat(createdRecord.id);
+        console.log(createdRecord);
+        file = file.update('records', x => x.concat(createdRecord.id));
     }
-    file.records = newRecords;
 
     // Deallocate unneeded records
     currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.get('id')}));
@@ -85,7 +87,7 @@ async function writeFile({id, data}) {
     // Update persist file for file map
     persistToDiskFile();
 
-    return getFile({id});
+    return file;
 }
 
 async function deleteFile({id}) {
