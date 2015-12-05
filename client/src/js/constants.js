@@ -12,7 +12,8 @@ export default {
         file: 'file',
         records: 'records',
         recordList: 'recordList',
-        record: 'record'
+        record: 'record',
+        createFile: 'createFile'
     },
 
     urls: {
