@@ -31,7 +31,7 @@ export default component({
         console.log(file);
 
         return div({className: 'fm-content'}
-            
+
         );
     },
 
