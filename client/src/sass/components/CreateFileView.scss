@@ -1,0 +1,66 @@
+@import '../api/helpers';
+
+.fm-create-file-list {
+}
+
+.fm-file-item {
+	@include flexbox();
+	padding: 5px 10px;
+	border: 1px solid transparent;
+
+	&:hover {
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+}
+
+.fm-create-file-item-header {
+	@include flexbox();
+	border: 1px solid transparent;
+	border-bottom: 1px solid #333;
+	margin-bottom: 5px;
+	padding: 5px 10px;
+}
+
+.fm-create-file-item-id {
+	@include flex(0 0 300px);
+}
+
+.fm-create-file-item-name {
+	@include flex(0 0 100px);
+}
+
+.fm-create-file-size {
+	@include flex(0 0 100px);
+}
+
+.fm-create-file-size-bar {
+	@include flex(1 0 200px);
+	position: relative;
+	border: 1px solid #ccc;
+}
+
+.fm-create-file-size-bar-fill {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	background-color: green;
+}
+
+
+.fm-create-file-view-header {
+
+}
+
+.fm-create-file-view-size {
+
+}
+
+.fm-create-file-view-content-header {
+
+}
+
+.fm-create-file-view-content {
+	word-wrap: break-word;
+}
