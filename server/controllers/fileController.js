@@ -27,7 +27,7 @@ async function persistToDiskFile() {
   let shortFiles = await getFiles();
   let filesJson = JSON.stringify(shortFiles.toJS());
 
-  // console.log(filesJson);
+  console.log(filesJson);
 
   fs.writeFile(`${dir}/${fileMap}`, filesJson, function(err) {
       if (err) {
@@ -80,7 +80,7 @@ async function writeFile({id, data}) {
     currentRecords.slice(neededRecords + 1).forEach(x => recordController.deleteRecord({id: x.get('id')}));
 
     // Assign our new/updated file to the file table
-    files = files.set(id, file);
+    files = files.set(file.get('id'), file);
 
     // Update persist file for file map
     persistToDiskFile();

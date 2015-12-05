@@ -24,8 +24,18 @@ async function getFile(req, res) {
 }
 router.get('/:id', getFile);
 
+async function createFile(req, res) {
+    let args = await defaultParameters(req, [], [{key: 'data'}]);
+
+    fileController
+        .writeFile(args)
+        .then(response.success(res))
+        .catch(response.failure(res));
+}
+router.post('/', createFile);
+
 async function updateFile(req, res) {
-    let args = await defaultParameters(req, [], []);
+    let args = await defaultParameters(req, [], [{key: 'data'}]);
 
     fileController
         .writeFile(args)
