@@ -24,7 +24,6 @@ export default component({
         let filesList = this.getViewState(filesPath, emptyList);
         return div({className: 'fm-content'},
             div({className: 'fm-narrow-content'},
-
                 ReactDropzone({className: 'fm-file-upload', onDrop: this.onDrop},
                     div({className: 'fm-file-upload-msg'}, 'Click or drag a file to upload!')
                 ),
@@ -47,7 +46,17 @@ export default component({
         );
     },
 
-    onDrop(x) {
-        console.log(x);
+    onDrop(uploadFiles) {
+        uploadFiles.forEach(file => {
+            let reader = new FileReader();
+            reader.onload = (evt) => {
+                let content = evt.target.result;
+                let name = file.name;
+
+                files.actions.updateFile({content, name});
+            };
+
+            reader.readAsBinaryString(file);
+        });
     }
 });

@@ -1,3 +1,4 @@
+import immutable from 'immutable';
 import {createAction, createStore} from 'flux';
 import rest from '../rest';
 import {urls} from 'constants';
@@ -19,7 +20,12 @@ async function fetchFile(id) {
 }
 
 async function updateFile(file) {
-    let result = await rest.post(`${urls.files}/${file.get('id', '')}`);
+    if (!file.get) {
+        file = immutable.fromJS(file);
+    }
+
+    let payload = {data: {name: file.get('name'), content: file.get('content')}};
+    let result = await rest.post(`${urls.files}/${file.get('id', '')}`, payload);
     store.cursor().set(result.id, result);
 
     return result;
