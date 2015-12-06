@@ -28,7 +28,10 @@
 }
 
 .fm-create-file-item-name {
-	@include flex(0 0 100px);
+}
+
+.fm-create-file-item-contents {
+	margin-top: 10px;
 }
 
 .fm-create-file-size {
@@ -63,4 +66,22 @@
 
 .fm-create-file-view-content {
 	word-wrap: break-word;
+}
+
+.fm-create-file-name-text-content {
+	width: 100%;
+	height: 26px;
+}
+
+.fm-create-file-content-text-content {
+	width: 100%;
+	height: 300px;
+}
+
+.fm-create-file-button {
+	position: absolute;
+	right: 30px;
+	margin-top: 10px;
+	width: 100px;
+	height: 30px;
 }
