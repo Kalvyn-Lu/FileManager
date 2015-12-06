@@ -36,7 +36,15 @@
 }
 
 .fm-file-delete {
-	@include flex(0 0 30px);	
+	@include flex(0 0 30px);
+}
+
+.fm-file-create-new {
+	position: absolute;
+	right: 310px;
+	margin-top: 10px;
+	width: 100px;
+	height: 30px;
 }
 
 .fm-file-size-bar-fill {

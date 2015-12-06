@@ -27,7 +27,7 @@ export default component({
                   textarea({value: fileName, ref: 'textarea', className: 'fm-create-file-name-text-content', onChange: this.onTextNameChange}),
                 div({className: 'fm-create-file-item-contents'}, 'Contents of File'),
                   textarea({value: contents, ref: 'textarea', className: 'fm-create-file-content-text-content', onChange: this.onTextContentsChange}),
-                button({ref: 'button', className: 'fm-create-file-button', onClick: this.onClickSave}, 'Create File'),
+                button({ref: 'button', className: 'fm-create-file-button', onClick: this.onClickSave}, 'Create File')
                 );
     },
 

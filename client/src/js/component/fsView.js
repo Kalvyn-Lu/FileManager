@@ -4,7 +4,7 @@ import {emptyList, routeNames} from 'constants';
 import component from 'component';
 import files from '../store/files';
 
-import {Link} from './router-jsx';
+import {Link, Router} from './router-jsx';
 
 import ReactDropzoneClass from 'react-dropzone';
 const ReactDropzone = React.createFactory(ReactDropzoneClass);
@@ -14,7 +14,7 @@ const filesPath = ['@@filesView/files'];
 export default component({
     displayName: 'filesView',
 
-    mixins: [files.store.connectTo([], filesPath)],
+    mixins: [files.store.connectTo([], filesPath), Router.Navigation],
 
     componentDidMount() {
         files.actions.fetchFiles();
@@ -44,7 +44,8 @@ export default component({
                         div({className: 'fm-file-delete'}, button({onClick: this.onDelete(x)}, 'x'))
                     );
                 })
-            )
+            ),
+            button({ref: 'button', className: 'fm-file-create-new', onClick: this.onCreateNew}, 'Create New')
         );
     },
 
@@ -69,5 +70,9 @@ export default component({
             e.preventDefault();
             files.actions.deleteFile(file.get('id'));
         };
+    },
+
+    onCreateNew(e) {
+      this.transitionTo(routeNames.createFile);
     }
 });
