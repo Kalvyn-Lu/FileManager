@@ -61,8 +61,6 @@ export default component({
         let id = file.get('id');
         let records = file.get('records', emptyList);
         let recordMap = this.getViewState(recordPath, emptyList).reduce((a, b) => a.set(b.get('id'), b), emptyMap);
-        let maxIndex = this.getViewState(recordPath, emptyList).reduce((a, b) => Math.max(a, b.get('id')), 0) + 1;
-
 
         return div({className: 'fm-content'},
             div({className: 'fm-file-view-content-header'},'Name:'),
