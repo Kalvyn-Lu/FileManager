@@ -12,6 +12,7 @@ export default component({
             span({className: 'fm-header-title'}, 'File Manager'),
             Link({className: 'fm-header-link', to: routeNames.recordList}, 'Records'),
             Link({className: 'fm-header-link', to: routeNames.fileList}, 'Files'),
+            Link({className: 'fm-header-link', to: routeNames.createFile}, 'Create File')
         );
     }
 });
