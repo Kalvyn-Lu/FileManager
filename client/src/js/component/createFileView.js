@@ -1,24 +1,24 @@
 import React from 'react';
 const {div,textarea,button} = React.DOM;
-import {emptyList, routeNames} from 'constants';
+import {emptyMap, routeNames} from 'constants';
 import component from 'component';
 import files from '../store/files';
 
-import {Link} from './router-jsx';
+import {Link, Router} from './router-jsx';
 
 const createFilePath = ['@@createFileView/createFile'];
 
 export default component({
     displayName: 'createFileView',
 
-    mixins: [files.store.connectTo([], createFilePath)],
+    mixins: [files.store.connectTo([], createFilePath), Router.Navigation],
 
     componentDidMount() {
         files.actions.fetchFiles();
     },
 
     render() {
-        // let filesList = this.getViewState(createFilePath, emptyList).toList();
+        console.log(this);
         let fileName = this.getViewState('fileName');
         let contents = this.getViewState('contents');
 
@@ -32,23 +32,25 @@ export default component({
     },
 
     onTextNameChange(e) {
-      let textFileName = e.target.value;
-      this.setViewState('fileName', textFileName);
+        let textFileName = e.target.value;
+        this.setViewState('fileName', textFileName);
     },
 
     onTextContentsChange(e) {
-      let textFileContents = e.target.value;
-      this.setViewState('contents', textFileContents);
+        let textFileContents = e.target.value;
+        this.setViewState('contents', textFileContents);
     },
 
     onClickSave(e) {
-      let file = emptyMap;
-      let textFileName = this.getViewState('fileName');
-      let textFileContents = this.getViewState('contents');
+        let file = emptyMap;
+        let textFileName = this.getViewState('fileName');
+        let textFileContents = this.getViewState('contents');
 
-      file = file.set('name', textFileName);
-      file = file.set('content', textFileContents);
+        file = file.set('name', textFileName);
+        file = file.set('content', textFileContents);
 
-      files.actions.updateFile(file);
+        files.actions.updateFile(file).then(x => {
+            this.transitionTo(routeNames.file, {fileId: x.get('id')});
+        });
     }
 });
