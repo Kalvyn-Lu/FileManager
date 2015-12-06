@@ -42,13 +42,13 @@ export default component({
     },
 
     onClickSave(e) {
-      let file = this.getViewState(emptyMap);
+      let file = emptyMap;
+      let textFileName = this.getViewState('fileName');
+      let textFileContents = this.getViewState('contents');
 
       file = file.set('name', textFileName);
       file = file.set('content', textFileContents);
 
       files.actions.updateFile(file);
-
-      Link({to: routeNames.fileList});
     }
 });
