@@ -70,6 +70,7 @@
 
 .fm-create-file-name-text-content {
 	width: 100%;
+	height: 26px;
 }
 
 .fm-create-file-content-text-content {
@@ -78,6 +79,9 @@
 }
 
 .fm-create-file-button {
-	width: 30px;
-	height: 10px;
+	position: absolute;
+	right: 30px;
+	margin-top: 10px;
+	width: 100px;
+	height: 30px;
 }

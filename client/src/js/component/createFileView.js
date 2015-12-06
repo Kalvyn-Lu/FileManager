@@ -6,9 +6,6 @@ import files from '../store/files';
 
 import {Link} from './router-jsx';
 
-import ReactDropzoneClass from 'react-dropzone';
-const ReactDropzone = React.createFactory(ReactDropzoneClass);
-
 const createFilePath = ['@@createFileView/createFile'];
 
 export default component({
@@ -22,19 +19,36 @@ export default component({
 
     render() {
         // let filesList = this.getViewState(createFilePath, emptyList).toList();
-        let editText = this.getViewState('Contents of Created File');
+        let fileName = this.getViewState('fileName');
+        let contents = this.getViewState('contents');
 
         return div({className: 'fm-content'},
                 div({className: 'fm-create-file-item-name'}, 'File Name'),
-                  textarea({value: '', ref: 'textarea', className: 'fm-create-file-name-text-content', onChange: this.onTextNameChange}),
+                  textarea({value: fileName, ref: 'textarea', className: 'fm-create-file-name-text-content', onChange: this.onTextNameChange}),
                 div({className: 'fm-create-file-item-contents'}, 'Contents of File'),
-                  textarea({value: editText, ref:'textarea', className: 'fm-create-file-content-text-content', onChange: this.onTextContentsChange}),
-                button({value: 'Create File', ref: 'button', className: 'fm-create-file-button'}),
+                  textarea({value: contents, ref: 'textarea', className: 'fm-create-file-content-text-content', onChange: this.onTextContentsChange}),
+                button({ref: 'button', className: 'fm-create-file-button', onClick: this.onClickSave}, 'Create File'),
                 );
     },
 
-    onTextChange(e) {
-      let text = e.target.value;
-      this.setViewState('Contents of Created File');
+    onTextNameChange(e) {
+      let textFileName = e.target.value;
+      this.setViewState('fileName', textFileName);
+    },
+
+    onTextContentsChange(e) {
+      let textFileContents = e.target.value;
+      this.setViewState('contents', textFileContents);
+    },
+
+    onClickSave(e) {
+      let file = this.getViewState(emptyMap);
+
+      file = file.set('name', textFileName);
+      file = file.set('content', textFileContents);
+
+      files.actions.updateFile(file);
+
+      Link({to: routeNames.fileList});
     }
 });
